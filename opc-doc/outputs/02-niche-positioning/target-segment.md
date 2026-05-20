@@ -1,0 +1,29 @@
+# 目标客群分析
+
+- **segment**: 缺乏专业测试能力的政务项目团队和中小企业
+- **core_pain**: 验收需要专业测试报告但无人能写；知道该做测试但不知从哪开始，招不起专职测试又反复出线上事故
+- **timing**: AI让一人测试交付成为可能（技术边界移动），政务验收合规需求持续存在（刚需），测试外包公司按人头收费AI加速反而压缩其收入（价值网络冲突）
+## rings_activated
+
+- **0**: leverage
+- **1**: boundary_shift
+- **2**: resource_match
+
+## service_ladder
+
+- **entry**: [object Object]
+- **upsell**: [object Object]
+- **trust_anchor**: [object Object]
+
+## opportunity_score
+
+- **pain**: 4
+- **leverage**: 4
+- **window**: 3
+- **resource_fit**: 5
+- **standardization**: 4
+- **cashflow**: 4
+- **total**: 24
+
+- **why_viable**: 7年测试经验+从零搭过3次测试基础设施+AI工具链实操，一人+AI可完成过去2-3人产出；服务阶梯设计让快回款和深交付并存
+- **why_big_players_wont**: 测试外包公司按人头收费AI加速反压缩收入（价值网络冲突）；SaaS平台卖工具不卖落地；小项目体量大公司看不上；政务验收报告需求碎片化无法规模化
