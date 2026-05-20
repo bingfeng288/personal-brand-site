@@ -98,8 +98,7 @@
             :root:not([data-theme="light"]) nav { background: rgba(12,18,34,0.95); }
             :root:not([data-theme="light"]) .mobile-menu-panel { background: var(--card-bg); }
             :root:not([data-theme="light"]) .mobile-menu-panel a { color: var(--text); }
-            :root:not([data-theme="light"]) .slider-captcha { background: linear-gradient(135deg, #162032, #2a3a52); }
-            :root:not([data-theme="light"]) .slider-captcha-text { color: var(--text-muted); }
+
             :root:not([data-theme="light"]) .service-card h3,
             :root:not([data-theme="light"]) .cred-item h4,
             :root:not([data-theme="light"]) .diff-content h4,
@@ -160,8 +159,7 @@
         [data-theme="dark"] nav { background: rgba(12,18,34,0.95); }
         [data-theme="dark"] .mobile-menu-panel { background: var(--card-bg); }
         [data-theme="dark"] .mobile-menu-panel a { color: var(--text); }
-        [data-theme="dark"] .slider-captcha { background: linear-gradient(135deg, #162032, #2a3a52); }
-        [data-theme="dark"] .slider-captcha-text { color: var(--text-muted); }
+
         [data-theme="dark"] .service-card h3,
         [data-theme="dark"] .cred-item h4,
         [data-theme="dark"] .diff-content h4,
@@ -936,63 +934,6 @@
             resize: vertical;
         }
 
-        /* Slider Captcha */
-        .slider-captcha {
-            position: relative;
-            width: 100%;
-            height: 48px;
-            background: linear-gradient(135deg, var(--bg-alt), var(--border));
-            border-radius: var(--radius-sm);
-            margin-bottom: 20px;
-            overflow: hidden;
-            user-select: none;
-            touch-action: none;
-        }
-        .slider-captcha-track {
-            position: absolute;
-            top: 0; left: 0;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            border-radius: var(--radius-sm);
-            width: 0;
-        }
-        .slider-captcha-track.success {
-            background: linear-gradient(135deg, var(--success), #22c55e);
-        }
-        .slider-captcha-text {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            pointer-events: none;
-            white-space: nowrap;
-        }
-        .slider-captcha-text.success { color: white; }
-        .slider-captcha-handle {
-            position: absolute;
-            top: 2px; left: 2px;
-            width: 44px; height: 44px;
-            background: white;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: grab;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            transition: box-shadow var(--transition);
-            font-size: 1.125rem;
-            z-index: 2;
-        }
-        .slider-captcha-handle:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-        .slider-captcha-handle:active { cursor: grabbing; }
-        .slider-captcha-handle.success {
-            background: var(--success);
-            color: white;
-            cursor: default;
-        }
 
         /* Call link button */
         .call-link {
@@ -1452,15 +1393,7 @@
                                 <label for="formMessage" data-i18n="form_message">项目需求</label>
                                 <textarea id="formMessage" name="项目需求" placeholder="简单描述项目类型、验收时间、当前测试状况..." rows="4" data-i18n-placeholder="form_message_ph"></textarea>
                             </div>
-                            <div class="form-group">
-                                <label id="captchaLabel" data-i18n="form_captcha">安全验证</label>
-                                <div class="slider-captcha" id="sliderCaptcha" role="slider" aria-labelledby="captchaLabel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="未验证" tabindex="0">
-                                    <div class="slider-captcha-track" id="sliderTrack"></div>
-                                    <span class="slider-captcha-text" id="sliderText" data-i18n="slider_hint">👉 拖动滑块完成验证</span>
-                                    <div class="slider-captcha-handle" id="sliderHandle" aria-hidden="true">≫</div>
-                                </div>
-                            </div>
-                            <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%; opacity: 0.5; cursor: not-allowed;" disabled data-i18n="form_submit">发送邮件</button>
+                            <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%;" data-i18n="form_submit">发送邮件</button>
                             <div style="display: flex; align-items: center; gap: 12px; margin-top: 16px;">
                                 <div style="flex: 1; height: 1px; background: var(--border);"></div>
                                 <span style="font-size: 0.8125rem; color: var(--text-muted);" data-i18n="form_or">或</span>
@@ -1602,8 +1535,6 @@
                 form_name: "你的称呼", form_name_ph: "怎么称呼你？",
                 form_contact: "联系方式", form_contact_ph: "微信或手机号",
                 form_message: "项目需求", form_message_ph: "简单描述项目类型、验收时间、当前测试状况...",
-                form_captcha: "安全验证", slider_hint: "👉 拖动滑块完成验证",
-                slider_success: "✓ 验证通过",
                 form_submit: "发送邮件", form_or: "或",
                 form_copy_wechat: "📋 复制微信号，直接联系",
                 form_hint: "点击发送邮件将打开邮箱客户端，24 小时内回复",
@@ -1693,8 +1624,6 @@
                 form_name: "Your Name", form_name_ph: "How should I address you?",
                 form_contact: "Contact Info", form_contact_ph: "WeChat or phone number",
                 form_message: "Project Needs", form_message_ph: "Briefly describe project type, acceptance timeline, current testing status...",
-                form_captcha: "Verification", slider_hint: "👉 Drag to verify",
-                slider_success: "✓ Verified",
                 form_submit: "Send Email", form_or: "or",
                 form_copy_wechat: "📋 Copy WeChat ID",
                 form_hint: "Click send to open email client, reply within 24 hours",
@@ -1804,110 +1733,8 @@
             });
         });
 
-        // ==================== Slider Captcha ====================
+        // ==================== Contact Form ====================
         (function() {
-            const handle = document.getElementById('sliderHandle');
-            const track = document.getElementById('sliderTrack');
-            const text = document.getElementById('sliderText');
-            const container = document.getElementById('sliderCaptcha');
-            const submitBtn = document.getElementById('submitBtn');
-
-            let isDragging = false;
-            let startX = 0;
-            let verified = false;
-            const t = () => translations[currentLang];
-
-            function getClientX(e) {
-                return e.touches ? e.touches[0].clientX : e.clientX;
-            }
-
-            function getMaxLeft() {
-                return container.offsetWidth - handle.offsetWidth - 4;
-            }
-
-            function updatePosition(newLeft) {
-                const maxLeft = getMaxLeft();
-                newLeft = Math.max(0, Math.min(newLeft, maxLeft));
-                handle.style.left = (newLeft + 2) + 'px';
-                track.style.width = (newLeft + handle.offsetWidth / 2) + 'px';
-
-                const pct = Math.round((newLeft / maxLeft) * 100);
-                container.setAttribute('aria-valuenow', pct);
-
-                if (newLeft >= maxLeft - 5) {
-                    verifySuccess();
-                }
-            }
-
-            function startDrag(e) {
-                if (verified) return;
-                e.preventDefault();
-                isDragging = true;
-                startX = getClientX(e) - handle.offsetLeft;
-                handle.style.transition = 'none';
-                track.style.transition = 'none';
-            }
-
-            function onDrag(e) {
-                if (!isDragging || verified) return;
-                e.preventDefault();
-                updatePosition(getClientX(e) - startX);
-            }
-
-            function endDrag() {
-                if (!isDragging || verified) return;
-                isDragging = false;
-                handle.style.transition = 'left 0.3s ease';
-                track.style.transition = 'width 0.3s ease';
-                handle.style.left = '2px';
-                track.style.width = '0';
-                container.setAttribute('aria-valuenow', 0);
-            }
-
-            function verifySuccess() {
-                verified = true;
-                isDragging = false;
-
-                const maxLeft = getMaxLeft();
-                handle.style.transition = 'left 0.2s ease';
-                track.style.transition = 'width 0.2s ease';
-                handle.style.left = (maxLeft + 2) + 'px';
-                track.style.width = container.offsetWidth + 'px';
-
-                handle.classList.add('success');
-                track.classList.add('success');
-                text.classList.add('success');
-                text.textContent = t().slider_success;
-
-                container.setAttribute('aria-valuenow', 100);
-                container.setAttribute('aria-valuetext', t().slider_success);
-
-                submitBtn.disabled = false;
-                submitBtn.style.opacity = '1';
-                submitBtn.style.cursor = 'pointer';
-            }
-
-            // Mouse events
-            handle.addEventListener('mousedown', startDrag);
-            document.addEventListener('mousemove', onDrag);
-            document.addEventListener('mouseup', endDrag);
-
-            // Touch events
-            handle.addEventListener('touchstart', startDrag, { passive: false });
-            document.addEventListener('touchmove', onDrag, { passive: false });
-            document.addEventListener('touchend', endDrag);
-
-            // Keyboard support
-            container.addEventListener('keydown', function(e) {
-                if (verified) return;
-                if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    const step = getMaxLeft() * 0.1;
-                    const current = parseFloat(handle.style.left) || 2;
-                    updatePosition(current - 2 + step);
-                }
-            });
-
             // Form submit
             document.getElementById('contactForm').addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -1926,18 +1753,6 @@
                 window.location.href = 'mailto:mars2728@qq.com?subject=' + subject + '&body=' + body;
 
                 setTimeout(function() {
-                    verified = false;
-                    handle.classList.remove('success');
-                    track.classList.remove('success');
-                    text.classList.remove('success');
-                    text.textContent = t().slider_hint;
-                    handle.style.left = '2px';
-                    track.style.width = '0';
-                    container.setAttribute('aria-valuenow', 0);
-                    container.setAttribute('aria-valuetext', '未验证');
-                    submitBtn.disabled = true;
-                    submitBtn.style.opacity = '0.5';
-                    submitBtn.style.cursor = 'not-allowed';
                     document.getElementById('contactForm').reset();
                 }, 1000);
             });
