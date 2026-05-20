@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 咨询 · 柳秉含</title>
+    <meta name="description" content="柳秉含 AI 分身，解答软件测试、测试基建、无障碍测试相关问题。">
+    <meta name="theme-color" content="#1a365d">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --primary-lighter: #3b6baa;
+            --accent: #c48a1f;
+            --accent-hover: #a67516;
+            --bg: #f5f7fa;
+            --bg-alt: #eaeff5;
+            --text: #1a202c;
+            --text-light: #3d4a5c;
+            --text-muted: #5f6d7e;
+            --border: #d8e0ea;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.08);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+        .back-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            transition: background 0.2s;
+        }
+        .back-link:hover { background: var(--bg-alt); }
+        .header-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .header-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+        .settings-btn {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+        .settings-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* Chat container */
+        .chat-container {
+            flex: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 60px);
+        }
+
+        /* Messages area */
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .message {
+            display: flex;
+            gap: 10px;
+            max-width: 85%;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .message.user {
+            flex-direction: row-reverse;
+            align-self: flex-end;
+        }
+        .message.assistant {
+            align-self: flex-start;
+        }
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .message.user .avatar {
+            background: var(--primary);
+            color: white;
+        }
+        .message.assistant .avatar {
+            background: var(--accent);
+            color: white;
+        }
+        .bubble {
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            line-height: 1.6;
+            font-size: 0.95rem;
+            word-break: break-word;
+        }
+        .message.user .bubble {
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        .message.assistant .bubble {
+            background: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-bottom-left-radius: 4px;
+        }
+        .bubble p { margin-bottom: 8px; }
+        .bubble p:last-child { margin-bottom: 0; }
+        .bubble ul, .bubble ol { padding-left: 20px; margin: 8px 0; }
+        .bubble code {
+            background: var(--bg-alt);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        /* Typing indicator */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            border-bottom-left-radius: 4px;
+            align-self: flex-start;
+            max-width: 85%;
+        }
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-6px); opacity: 1; }
+        }
+
+        /* Input area */
+        .input-area {
+            padding: 16px;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border);
+        }
+        .input-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+        .input-box {
+            flex: 1;
+            position: relative;
+        }
+        .input-box textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 0.95rem;
+            font-family: inherit;
+            resize: none;
+            min-height: 48px;
+            max-height: 120px;
+            outline: none;
+            transition: border-color 0.2s;
+            color: var(--text);
+            background: var(--bg);
+        }
+        .input-box textarea:focus {
+            border-color: var(--primary-light);
+        }
+        .send-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            padding: 12px 20px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            flex-shrink: 0;
+            height: 48px;
+        }
+        .send-btn:hover { background: var(--primary-light); }
+        .send-btn:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+        }
+        .input-hint {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        /* Welcome message */
+        .welcome {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+        .welcome h2 {
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+        .welcome p { margin-bottom: 8px; }
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .quick-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-light);
+        }
+        .quick-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--bg-alt);
+        }
+
+        /* Settings panel */
+        .settings-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+        }
+        .settings-overlay.open { display: flex; }
+        .settings-panel {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        .settings-panel h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        .settings-panel .form-group {
+            margin-bottom: 16px;
+        }
+        .settings-panel label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .settings-panel input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+            color: var(--text);
+            background: var(--bg);
+        }
+        .settings-panel input:focus {
+            border-color: var(--primary-light);
+        }
+        .settings-panel .hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .settings-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 24px;
+        }
+        .btn-save {
+            flex: 1;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 10px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-save:hover { background: var(--primary-light); }
+        .btn-cancel {
+            flex: 1;
+            background: var(--bg);
+            color: var(--text-light);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-cancel:hover { border-color: var(--text-muted); }
+        .status-msg {
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            margin-top: 12px;
+            display: none;
+        }
+        .status-msg.success {
+            background: rgba(22,163,74,0.1);
+            color: #16a34a;
+            display: block;
+        }
+        .status-msg.error {
+            background: rgba(220,38,38,0.1);
+            color: #dc2626;
+            display: block;
+        }
+
+        /* Mobile */
+        @media (max-width: 640px) {
+            .chat-container { height: calc(100vh - 56px); }
+            header { padding: 10px 16px; }
+            .messages { padding: 16px 12px; }
+            .message { max-width: 92%; }
+            .input-area { padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="back-link">← 返回主页</a>
+    <div>
+        <div class="header-title">AI 咨询 · 柳秉含</div>
+        <div class="header-subtitle">软件评测师 · 7 年测试经验</div>
+    </div>
+    <div class="header-right">
+        <button class="settings-btn" onclick="openSettings()" title="设置">⚙️</button>
+    </div>
+</header>
+
+<div class="chat-container">
+    <div class="messages" id="messages">
+        <div class="welcome" id="welcome">
+            <h2>👋 您好，我是柳秉含的 AI 分身</h2>
+            <p>我基于柳秉含的测试专业经验训练，可以回答以下类型的问题：</p>
+            <p>📋 测试报告与验收 · 🏗️ 测试基建搭建 · ♿ 无障碍测试 · 🤖 AI 测试应用</p>
+            <div class="quick-actions">
+                <button class="quick-btn" onclick="sendQuick('测试报告一般包含哪些内容？')">测试报告包含哪些内容？</button>
+                <button class="quick-btn" onclick="sendQuick('政务项目验收对测试有什么特殊要求？')">政务项目验收要求？</button>
+                <button class="quick-btn" onclick="sendQuick('搭建测试基建大概需要多少预算？')">测试基建预算？</button>
+                <button class="quick-btn" onclick="sendQuick('无障碍测试主要测什么？')">无障碍测试内容？</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="input-area">
+        <div class="input-wrapper">
+            <div class="input-box">
+                <textarea id="user-input" placeholder="输入您的问题…" rows="1"></textarea>
+            </div>
+            <button class="send-btn" id="send-btn" onclick="sendMessage()">发送</button>
+        </div>
+        <div class="input-hint" id="input-hint">请在右上角 ⚙️ 设置中配置 API 密钥后开始对话</div>
+    </div>
+</div>
+
+<!-- Settings Panel -->
+<div class="settings-overlay" id="settings-overlay">
+    <div class="settings-panel">
+        <h3>⚙️ API 设置</h3>
+        <div class="form-group">
+            <label>API 端点</label>
+            <input type="text" id="setting-endpoint" placeholder="https://api.openai.com/v1/chat/completions">
+            <div class="hint">OpenAI 兼容接口，可替换为 DeepSeek / 通义千问等</div>
+        </div>
+        <div class="form-group">
+            <label>API Key</label>
+            <input type="password" id="setting-key" placeholder="sk-…">
+            <div class="hint">密钥仅保存在您的浏览器本地，不会上传到任何服务器</div>
+        </div>
+        <div class="form-group">
+            <label>模型名称</label>
+            <input type="text" id="setting-model" placeholder="gpt-4o">
+            <div class="hint">根据您使用的 API 服务填写对应模型名称</div>
+        </div>
+        <div class="settings-actions">
+            <button class="btn-cancel" onclick="closeSettings()">取消</button>
+            <button class="btn-save" onclick="saveSettings()">保存</button>
+        </div>
+        <div class="status-msg" id="settings-status"></div>
+    </div>
+</div>
+
+<script>
+// ======================== State ========================
+let conversationHistory = [];
+let isLoading = false;
+
+// ======================== System Prompt ========================
+const SYSTEM_PROMPT = `你是柳秉含（Mars）的 AI 分身，代表他与潜在客户沟通。
+
+## 你的身份
+- 你不是「AI 助手」，你是柳秉含的专业分身
+- 你的回答风格：专业、务实、不夸大、有具体经验支撑
+- 你代表柳秉含接受客户咨询，回答关于软件测试服务的问题
+
+## 柳秉含的背景（用于回答参考）
+- 7 年软件测试经验，国家认证软件评测师
+- 测试管理体系：禅道 → Jira → Coding，经历过三家公司的工具迁移
+- CI/CD 基础建设：Jenkins 多环境部署（开发/测试/预发/生产）
+- 自动化测试：Python + Robot Framework，UI 自动化（Web + 小程序）
+- 测试类型全覆盖：功能/自动化/性能(JMeter)/安全(OWASP Top 10)/无障碍
+- 无障碍测试：杭州亚运会志愿者背景，有无障碍/助残知识，有残疾社区关系
+- AI 工具实战：Claude（测试用例生成）、WorkBuddy（代码辅助）、Cursor（自动化脚本）
+- 全栈能力：前端（微信小程序）、后端（Python FastAPI）、运维（Docker/k3s）
+- 政务项目经验：测试报告需符合工信部/人社部规范，软件评测师证书是资质背书
+
+## 服务内容（客户可能咨询的方向）
+1. **测试报告与验收服务**：AI 加速生成，2 天压缩到 0.5 天，收费按报告份数
+2. **测试基建一站式搭建**：Jira + Jenkins + 自动化框架，全程主导，按项目收费
+3. **无障碍合规测试**：WCAG 2.1 + GB/T 29733，政务/互联网产品无障碍改造验证
+
+## 回答原则
+- 用第一人称「我」来回答（你是柳秉含的分身）
+- 有具体经验就举具体例子，没有把握的不瞎编
+- 客户问报价，给出范围而非固定价格（报告 800-2000 元/份，基建搭建 1.5-5 万/项目）
+- 客户问工期，给合理估算并说明依赖条件
+- 引导客户留下联系方式（但不强制）
+- 回答简洁，核心信息突出，必要时用列表
+
+## 禁止
+- 不要说「我是 AI 语言模型」或「我不能…」
+- 不要编造柳秉含没有的经验或证书
+- 不要对客户的问题表现出无法回答的犹豫`;
+
+// ======================== Init ========================
+function init() {
+    loadSettings();
+    checkSettings();
+    setupTextareaAutoResize();
+}
+
+function loadSettings() {
+    const saved = localStorage.getItem('ai_chat_settings');
+    if (saved) {
+        const settings = JSON.parse(saved);
+        document.getElementById('setting-endpoint').value = settings.endpoint || '';
+        document.getElementById('setting-key').value = settings.key || '';
+        document.getElementById('setting-model').value = settings.model || '';
+    }
+}
+
+function checkSettings() {
+    const settings = localStorage.getItem('ai_chat_settings');
+    const hint = document.getElementById('input-hint');
+    if (settings) {
+        hint.textContent = '可以开始提问了 ↓';
+        hint.style.color = '#16a34a';
+    } else {
+        hint.textContent = '请在右上角 ⚙️ 设置中配置 API 密钥后开始对话';
+        hint.style.color = '';
+    }
+}
+
+// ======================== Settings ========================
+function openSettings() {
+    loadSettings();
+    document.getElementById('settings-overlay').classList.add('open');
+}
+
+function closeSettings() {
+    document.getElementById('settings-overlay').classList.remove('open');
+    document.getElementById('settings-status').className = 'status-msg';
+}
+
+function saveSettings() {
+    const endpoint = document.getElementById('setting-endpoint').value.trim();
+    const key = document.getElementById('setting-key').value.trim();
+    const model = document.getElementById('setting-model').value.trim();
+
+    if (!endpoint || !key || !model) {
+        showSettingsStatus('请填写所有字段', 'error');
+        return;
+    }
+
+    localStorage.setItem('ai_chat_settings', JSON.stringify({ endpoint, key, model }));
+    showSettingsStatus('设置已保存！', 'success');
+    checkSettings();
+    setTimeout(closeSettings, 800);
+}
+
+function showSettingsStatus(msg, type) {
+    const el = document.getElementById('settings-status');
+    el.textContent = msg;
+    el.className = 'status-msg ' + type;
+}
+
+// ======================== Textarea Auto-resize ========================
+function setupTextareaAutoResize() {
+    const textarea = document.getElementById('user-input');
+    textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+    });
+    textarea.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+}
+
+// ======================== Send Message ========================
+async function sendMessage() {
+    const input = document.getElementById('user-input');
+    const text = input.value.trim();
+    if (!text || isLoading) return;
+
+    const settings = JSON.parse(localStorage.getItem('ai_chat_settings') || '{}');
+    if (!settings.key) {
+        openSettings();
+        return;
+    }
+
+    // Add user message
+    appendMessage('user', text);
+    input.value = '';
+    input.style.height = 'auto';
+
+    // Show typing indicator
+    isLoading = true;
+    document.getElementById('send-btn').disabled = true;
+    showTyping();
+
+    // Build messages
+    const messages = [
+        { role: 'system', content: SYSTEM_PROMPT },
+        ...conversationHistory,
+        { role: 'user', content: text }
+    ];
+
+    try {
+        const response = await fetch(settings.endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + settings.key
+            },
+            body: JSON.stringify({
+                model: settings.model,
+                messages: messages,
+                max_tokens: 1000,
+                temperature: 0.7
+            })
+        });
+
+        if (!response.ok) {
+            const err = await response.text();
+            throw new Error('API 请求失败 (' + response.status + ')：' + err);
+        }
+
+        const data = await response.json();
+        const reply = data.choices?.[0]?.message?.content || '抱歉，暂时无法回答，请稍后再试。';
+
+        removeTyping();
+        appendMessage('assistant', reply);
+        conversationHistory.push({ role: 'user', content: text });
+        conversationHistory.push({ role: 'assistant', content: reply });
+
+        // Keep history manageable
+        if (conversationHistory.length > 20) {
+            conversationHistory = conversationHistory.slice(-20);
+        }
+    } catch (e) {
+        removeTyping();
+        appendMessage('assistant', '⚠️ 调用 AI 接口时出错：' + e.message + '\n\n请检查 API 设置是否正确，或稍后重试。');
+    } finally {
+        isLoading = false;
+        document.getElementById('send-btn').disabled = false;
+    }
+}
+
+function sendQuick(text) {
+    document.getElementById('user-input').value = text;
+    sendMessage();
+}
+
+// ======================== DOM Helpers ========================
+function appendMessage(role, content) {
+    const messagesEl = document.getElementById('messages');
+    const welcome = document.getElementById('welcome');
+    if (welcome) welcome.style.display = 'none';
+
+    const msgEl = document.createElement('div');
+    msgEl.className = 'message ' + role;
+
+    const avatarLabel = role === 'user' ? '👤' : '🤖';
+    const bubbleHTML = renderMarkdown(content);
+
+    msgEl.innerHTML =
+        '<div class="avatar">' + avatarLabel + '</div>' +
+        '<div class="bubble">' + bubbleHTML + '</div>';
+
+    messagesEl.appendChild(msgEl);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function showTyping() {
+    const messagesEl = document.getElementById('messages');
+    const el = document.createElement('div');
+    el.className = 'typing-indicator';
+    el.id = 'typing-indicator';
+    el.innerHTML = '<span></span><span></span><span></span>';
+    messagesEl.appendChild(el);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function removeTyping() {
+    const el = document.getElementById('typing-indicator');
+    if (el) el.remove();
+}
+
+// ======================== Simple Markdown Render ========================
+function renderMarkdown(text) {
+    // Escape HTML
+    let html = text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+    // Code blocks
+    html = html.replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
+
+    // Inline code
+    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+    // Bold
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+    // Italic
+    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+    // Headers
+    html = html.replace(/^### (.+)$/gm, '<h4>$1</h4>');
+    html = html.replace(/^## (.+)$/gm, '<h3>$1</h3>');
+    html = html.replace(/^# (.+)$/gm, '<h2>$1</h2>');
+
+    // Lists
+    html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+    html = html.replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
+
+    // Paragraphs
+    html = html.replace(/\n\n/g, '</p><p>');
+    html = '<p>' + html + '</p>';
+    html = html.replace(/<p><(h[2-4]|ul|pre)/g, '<$1');
+    html = html.replace(/<\/(h[2-4]|ul|pre)><\/p>/g, '</$1>');
+
+    return html;
+}
+
+// ======================== Boot ========================
+init();
+</script>
+</body>
+</html>
