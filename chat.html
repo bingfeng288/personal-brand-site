@@ -677,7 +677,7 @@ async function sendMessage() {
                 endpoint: settings.endpoint,
                 key: settings.key,
                 authHeader: settings.authHeader || 'Authorization',
-                authPrefix: settings.authPrefix || 'Bearer ',
+                authPrefix: settings.authPrefix ?? 'Bearer ',
                 upstreamBody: upstreamBody,
             })
         });
