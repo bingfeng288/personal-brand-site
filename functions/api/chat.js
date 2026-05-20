@@ -1,11 +1,14 @@
 /**
- * EdgeOne Pages 边缘函数 — AI API 代理
+ * EdgeOne Pages 边缘函数 — AI API 通用代理
  * 解决浏览器 CORS 问题
  * 路径：/functions/api/chat.js → 部署后可通过 /api/chat 访问
+ *
+ * 支持格式：
+ *   - OpenAI 兼容：authHeader="Authorization", authPrefix="Bearer "
+ *   - MiMo：authHeader="api-key", authPrefix=""
  */
 
 export async function onRequest(context) {
-  // 仅允许 POST
   if (context.request.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
       status: 405,
@@ -16,37 +19,48 @@ export async function onRequest(context) {
   try {
     const body = await context.request.json();
 
-    const { endpoint, key, model, messages, max_tokens, temperature } = body;
+    const {
+      endpoint,
+      key,
+      authHeader = 'Authorization',
+      authPrefix = 'Bearer ',
+      upstreamBody,
+    } = body;
 
-    if (!endpoint || !key || !model || !messages) {
-      return new Response(JSON.stringify({ error: '缺少必要参数：endpoint / key / model / messages' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+    if (!endpoint || !key || !upstreamBody) {
+      return new Response(
+        JSON.stringify({ error: '缺少必要参数：endpoint / key / upstreamBody' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
     }
 
-    // 拼接真实 AI API 地址
-    const url = endpoint.endsWith('/') ? endpoint + 'chat/completions' : endpoint + '/chat/completions';
+    // 拼接真实 API 地址（自动补 /chat/completions）
+    const sep = endpoint.endsWith('/') ? '' : '/';
+    const url = endpoint + sep + 'chat/completions';
+
+    // 构造 upstream headers
+    const upstreamHeaders = {
+      'Content-Type': 'application/json',
+      [authHeader]: authPrefix + key,
+    };
 
     const upstreamResp = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + key,
-      },
-      body: JSON.stringify({
-        model,
-        messages,
-        max_tokens: max_tokens || 1000,
-        temperature: temperature || 0.7,
-      }),
+      headers: upstreamHeaders,
+      body: JSON.stringify(upstreamBody),
     });
 
-    const data = await upstreamResp.json();
+    const contentType = upstreamResp.headers.get('Content-Type') || '';
+    const respBody = contentType.includes('application/json')
+      ? JSON.stringify(await upstreamResp.json())
+      : await upstreamResp.text();
 
-    return new Response(JSON.stringify(data), {
+    return new Response(respBody, {
       status: upstreamResp.status,
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': contentType || 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
     });
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message }), {
