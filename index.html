@@ -933,6 +933,16 @@
             min-height: 120px;
             resize: vertical;
         }
+        .form-group input.invalid {
+            border-color: #e53e3e;
+            box-shadow: 0 0 0 3px rgba(229,62,62,0.12);
+        }
+        .form-error {
+            font-size: 0.8125rem;
+            color: #e53e3e;
+            margin-top: 4px;
+            min-height: 1.2em;
+        }
 
 
         /* Call link button */
@@ -1386,8 +1396,9 @@
                                 <input type="text" id="formName" name="称呼" placeholder="怎么称呼你？" required data-i18n-placeholder="form_name_ph">
                             </div>
                             <div class="form-group">
-                                <label for="formContact" data-i18n="form_contact">联系方式</label>
-                                <input type="text" id="formContact" name="联系方式" placeholder="微信或手机号" required data-i18n-placeholder="form_contact_ph">
+                                <label for="formContact" data-i18n="form_contact">手机号</label>
+                                <input type="tel" id="formContact" name="手机号" placeholder="请输入11位手机号" required pattern="1[3-9]\d{9}" maxlength="11" data-i18n-placeholder="form_contact_ph" autocomplete="tel">
+                                <p class="form-error" id="contactError" data-i18n="form_contact_err" aria-live="polite"></p>
                             </div>
                             <div class="form-group">
                                 <label for="formMessage" data-i18n="form_message">项目需求</label>
@@ -1533,7 +1544,8 @@
                 contact_email_label: "邮箱",
                 contact_response_label: "响应时间", contact_response_value: "工作日 24 小时内回复",
                 form_name: "你的称呼", form_name_ph: "怎么称呼你？",
-                form_contact: "联系方式", form_contact_ph: "微信或手机号",
+                form_contact: "手机号", form_contact_ph: "请输入11位手机号",
+                form_contact_required: "请输入手机号", form_contact_invalid: "请输入正确的11位手机号",
                 form_message: "项目需求", form_message_ph: "简单描述项目类型、验收时间、当前测试状况...",
                 form_submit: "发送邮件", form_or: "或",
                 form_copy_wechat: "📋 复制微信号，直接联系",
@@ -1622,7 +1634,8 @@
                 contact_email_label: "Email",
                 contact_response_label: "Response Time", contact_response_value: "Within 24 hours on business days",
                 form_name: "Your Name", form_name_ph: "How should I address you?",
-                form_contact: "Contact Info", form_contact_ph: "WeChat or phone number",
+                form_contact: "Phone", form_contact_ph: "11-digit phone number",
+                form_contact_required: "Phone number is required", form_contact_invalid: "Please enter a valid 11-digit phone number",
                 form_message: "Project Needs", form_message_ph: "Briefly describe project type, acceptance timeline, current testing status...",
                 form_submit: "Send Email", form_or: "or",
                 form_copy_wechat: "📋 Copy WeChat ID",
@@ -1735,17 +1748,50 @@
 
         // ==================== Contact Form ====================
         (function() {
+            // Phone validation
+            const phoneInput = document.getElementById('formContact');
+            const phoneError = document.getElementById('contactError');
+            const phonePattern = /^1[3-9]\d{9}$/;
+            const t = () => translations[currentLang];
+
+            function validatePhone() {
+                const val = phoneInput.value.trim();
+                if (!val) {
+                    phoneInput.classList.add('invalid');
+                    phoneError.textContent = t().form_contact_required;
+                    return false;
+                }
+                if (!phonePattern.test(val)) {
+                    phoneInput.classList.add('invalid');
+                    phoneError.textContent = t().form_contact_invalid;
+                    return false;
+                }
+                phoneInput.classList.remove('invalid');
+                phoneError.textContent = '';
+                return true;
+            }
+
+            phoneInput.addEventListener('blur', validatePhone);
+            phoneInput.addEventListener('input', function() {
+                if (phoneInput.classList.contains('invalid')) validatePhone();
+            });
+
             // Form submit
             document.getElementById('contactForm').addEventListener('submit', function(e) {
                 e.preventDefault();
+                if (!validatePhone()) {
+                    phoneInput.focus();
+                    return;
+                }
+
                 const name = document.getElementById('formName').value.trim();
-                const contact = document.getElementById('formContact').value.trim();
+                const phone = phoneInput.value.trim();
                 const message = document.getElementById('formMessage').value.trim();
 
                 const subject = encodeURIComponent('【个人官网】测试服务咨询 - ' + name);
                 const body = encodeURIComponent(
                     '称呼：' + name + '\n' +
-                    '联系方式：' + contact + '\n' +
+                    '手机号：' + phone + '\n' +
                     '项目需求：' + (message || '暂无描述') + '\n\n' +
                     '--- 来自柳秉含个人官网 ---'
                 );
@@ -1754,6 +1800,8 @@
 
                 setTimeout(function() {
                     document.getElementById('contactForm').reset();
+                    phoneInput.classList.remove('invalid');
+                    phoneError.textContent = '';
                 }, 1000);
             });
 
