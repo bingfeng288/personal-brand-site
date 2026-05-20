@@ -440,8 +440,8 @@
         <h3>⚙️ API 设置</h3>
         <div class="form-group">
             <label>API 端点</label>
-            <input type="text" id="setting-endpoint" placeholder="https://api.openai.com/v1/chat/completions">
-            <div class="hint">OpenAI 兼容接口，可替换为 DeepSeek / 通义千问等</div>
+            <input type="text" id="setting-endpoint" placeholder="https://api.deepseek.com">
+            <div class="hint">AI 服务 Base URL（DeepSeek / OpenAI 兼容接口）</div>
         </div>
         <div class="form-group">
             <label>API Key</label>
@@ -450,8 +450,8 @@
         </div>
         <div class="form-group">
             <label>模型名称</label>
-            <input type="text" id="setting-model" placeholder="gpt-4o">
-            <div class="hint">根据您使用的 API 服务填写对应模型名称</div>
+            <input type="text" id="setting-model" placeholder="deepseek-chat">
+            <div class="hint">DeepSeek：deepseek-chat（V3）或 deepseek-reasoner（R1）</div>
         </div>
         <div class="settings-actions">
             <button class="btn-cancel" onclick="closeSettings()">取消</button>
@@ -610,13 +610,14 @@ async function sendMessage() {
     ];
 
     try {
-        const response = await fetch(settings.endpoint, {
+        const response = await fetch('/api/chat', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + settings.key
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+                endpoint: settings.endpoint,
+                key: settings.key,
                 model: settings.model,
                 messages: messages,
                 max_tokens: 1000,
