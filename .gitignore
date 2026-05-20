@@ -2,3 +2,6 @@
 .env
 .edgeone/*
 .tef_dist/*
+
+# Edge functions (contains API keys — deploy via CLI only)
+edge-functions/
