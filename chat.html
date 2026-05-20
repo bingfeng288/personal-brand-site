@@ -388,12 +388,6 @@
             color: #16a34a;
             display: block;
         }
-        .status-msg.error {
-            background: rgba(220,38,38,0.1);
-            color: #dc2626;
-            display: block;
-        }
-
         /* Mobile */
         @media (max-width: 640px) {
             .chat-container { height: calc(100vh - 56px); }
@@ -411,9 +405,6 @@
     <div>
         <div class="header-title">AI 咨询 · 柳秉含</div>
         <div class="header-subtitle">软件评测师 · 7 年测试经验</div>
-    </div>
-    <div class="header-right">
-        <button class="settings-btn" onclick="openSettings()" title="设置">⚙️</button>
     </div>
 </header>
 
@@ -439,51 +430,7 @@
             </div>
             <button class="send-btn" id="send-btn" onclick="sendMessage()">发送</button>
         </div>
-        <div class="input-hint" id="input-hint">请在右上角 ⚙️ 设置中配置 API 密钥后开始对话</div>
-    </div>
-</div>
-
-<!-- Settings Panel -->
-<div class="settings-overlay" id="settings-overlay">
-    <div class="settings-panel">
-        <h3>⚙️ API 设置</h3>
-        <div class="form-group">
-            <label>API 端点</label>
-            <input type="text" id="setting-endpoint" placeholder="https://api.deepseek.com">
-            <div class="hint">AI 服务 Base URL（DeepSeek / OpenAI 兼容接口）</div>
-        </div>
-        <div class="form-group">
-            <label>API Key</label>
-            <input type="password" id="setting-key" placeholder="sk-… / MiMo API Key">
-            <div class="hint">密钥仅保存在您的浏览器本地，不会上传到任何服务器</div>
-        </div>
-        <div class="form-group">
-            <label>认证头名称</label>
-            <input type="text" id="setting-auth-header" placeholder="Authorization / api-key">
-            <div class="hint">OpenAI/DeepSeek 填 <code>Authorization</code>；MiMo 填 <code>api-key</code></div>
-        </div>
-        <div class="form-group">
-            <label>认证前缀</label>
-            <input type="text" id="setting-auth-prefix" placeholder="Bearer  / （留空）">
-            <div class="hint">OpenAI/DeepSeek 填 <code>Bearer </code>（含尾部空格）；MiMo 留空</div>
-        </div>
-        <div class="form-group">
-            <label>模型名称</label>
-            <input type="text" id="setting-model" placeholder="deepseek-chat / mimo-v2.5-pro">
-            <div class="hint">OpenAI 兼容接口填模型名；MiMo 填 <code>mimo-v2.5-pro</code></div>
-        </div>
-        <div class="form-group">
-            <label>API 格式</label>
-            <select id="setting-format" onchange="onFormatChange()">
-                <option value="openai">OpenAI 兼容（DeepSeek / GPT 等）</option>
-                <option value="mimo">MiMo（小米）</option>
-            </select>
-        </div>
-        <div class="settings-actions">
-            <button class="btn-cancel" onclick="closeSettings()">取消</button>
-            <button class="btn-save" onclick="saveSettings()">保存</button>
-        </div>
-        <div class="status-msg" id="settings-status"></div>
+        <div class="input-hint" id="input-hint">输入问题后按 Enter 发送，Shift+Enter 换行</div>
     </div>
 </div>
 
@@ -531,85 +478,7 @@ const SYSTEM_PROMPT = `你是柳秉含（Mars）的 AI 分身，代表他与潜�
 
 // ======================== Init ========================
 function init() {
-    loadSettings();
-    checkSettings();
     setupTextareaAutoResize();
-}
-
-function loadSettings() {
-    const saved = localStorage.getItem('ai_chat_settings');
-    if (saved) {
-        const settings = JSON.parse(saved);
-        document.getElementById('setting-endpoint').value = settings.endpoint || '';
-        document.getElementById('setting-key').value = settings.key || '';
-        document.getElementById('setting-auth-header').value = settings.authHeader || '';
-        document.getElementById('setting-auth-prefix').value = settings.authPrefix || '';
-        document.getElementById('setting-model').value = settings.model || '';
-        document.getElementById('setting-format').value = settings.format || 'openai';
-    }
-}
-
-function checkSettings() {
-    const settings = localStorage.getItem('ai_chat_settings');
-    const hint = document.getElementById('input-hint');
-    if (settings) {
-        hint.textContent = '可以开始提问了 ↓';
-        hint.style.color = '#16a34a';
-    } else {
-        hint.textContent = '请在右上角 ⚙️ 设置中配置 API 密钥后开始对话';
-        hint.style.color = '';
-    }
-}
-
-// ======================== Settings ========================
-function onFormatChange() {
-    const fmt = document.getElementById('setting-format').value;
-    if (fmt === 'mimo') {
-        document.getElementById('setting-endpoint').value = 'https://api.moonshot.cn';
-        document.getElementById('setting-auth-header').value = 'api-key';
-        document.getElementById('setting-auth-prefix').value = '';
-        document.getElementById('setting-model').value = 'mimo-v2.5-pro';
-    } else {
-        document.getElementById('setting-auth-header').value = 'Authorization';
-        document.getElementById('setting-auth-prefix').value = 'Bearer ';
-    }
-}
-
-function openSettings() {
-    loadSettings();
-    document.getElementById('settings-overlay').classList.add('open');
-}
-
-function closeSettings() {
-    document.getElementById('settings-overlay').classList.remove('open');
-    document.getElementById('settings-status').className = 'status-msg';
-}
-
-function saveSettings() {
-    const endpoint = document.getElementById('setting-endpoint').value.trim();
-    const key = document.getElementById('setting-key').value.trim();
-    const authHeader = document.getElementById('setting-auth-header').value.trim();
-    const authPrefix = document.getElementById('setting-auth-prefix').value;
-    const model = document.getElementById('setting-model').value.trim();
-    const format = document.getElementById('setting-format').value;
-
-    if (!endpoint || !key || !model) {
-        showSettingsStatus('请填写 API 端点、Key 和模型名称', 'error');
-        return;
-    }
-
-    localStorage.setItem('ai_chat_settings', JSON.stringify({
-        endpoint, key, authHeader, authPrefix, model, format
-    }));
-    showSettingsStatus('设置已保存！', 'success');
-    checkSettings();
-    setTimeout(closeSettings, 800);
-}
-
-function showSettingsStatus(msg, type) {
-    const el = document.getElementById('settings-status');
-    el.textContent = msg;
-    el.className = 'status-msg ' + type;
 }
 
 // ======================== Textarea Auto-resize ========================
@@ -633,12 +502,6 @@ async function sendMessage() {
     const text = input.value.trim();
     if (!text || isLoading) return;
 
-    const settings = JSON.parse(localStorage.getItem('ai_chat_settings') || '{}');
-    if (!settings.key) {
-        openSettings();
-        return;
-    }
-
     // Add user message
     appendMessage('user', text);
     input.value = '';
@@ -649,42 +512,23 @@ async function sendMessage() {
     document.getElementById('send-btn').disabled = true;
     showTyping();
 
-    // Build messages
+    // Build messages（API Key 等在边缘函数中配置，前端只传对话内容）
     const messages = [
         { role: 'system', content: SYSTEM_PROMPT },
         ...conversationHistory,
         { role: 'user', content: text }
     ];
 
-    // Build upstream body based on format
-    const isMimo = (settings.format || 'openai') === 'mimo';
-    const upstreamBody = {
-        model: settings.model,
-        messages: messages,
-        temperature: 0.7,
-    };
-    if (isMimo) {
-        upstreamBody.max_completion_tokens = 1024;
-    } else {
-        upstreamBody.max_tokens = 1000;
-    }
-
     try {
         const response = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                endpoint: settings.endpoint,
-                key: settings.key,
-                authHeader: settings.authHeader || 'Authorization',
-                authPrefix: settings.authPrefix ?? 'Bearer ',
-                upstreamBody: upstreamBody,
-            })
+            body: JSON.stringify({ messages }),
         });
 
         if (!response.ok) {
             const err = await response.text();
-            throw new Error('API 请求失败 (' + response.status + ')：' + err);
+            throw new Error('AI 接口出错（' + response.status + '）：' + err);
         }
 
         const data = await response.json();
@@ -695,13 +539,13 @@ async function sendMessage() {
         conversationHistory.push({ role: 'user', content: text });
         conversationHistory.push({ role: 'assistant', content: reply });
 
-        // Keep history manageable
+        // 保留最近 20 条历史
         if (conversationHistory.length > 20) {
             conversationHistory = conversationHistory.slice(-20);
         }
     } catch (e) {
         removeTyping();
-        appendMessage('assistant', '⚠️ 调用 AI 接口时出错：' + e.message + '\n\n请检查 API 设置是否正确，或稍后重试。');
+        appendMessage('assistant', '⚠️ 调用 AI 接口时出错：' + e.message + '\n\n请稍后重试。');
     } finally {
         isLoading = false;
         document.getElementById('send-btn').disabled = false;
