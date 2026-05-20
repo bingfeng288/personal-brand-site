@@ -367,6 +367,15 @@
             transition: all 0.2s;
         }
         .btn-cancel:hover { border-color: var(--text-muted); }
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            background: var(--bg);
+            color: var(--text);
+        }
         .status-msg {
             padding: 8px 12px;
             border-radius: var(--radius-sm);
@@ -445,13 +454,30 @@
         </div>
         <div class="form-group">
             <label>API Key</label>
-            <input type="password" id="setting-key" placeholder="sk-…">
+            <input type="password" id="setting-key" placeholder="sk-… / MiMo API Key">
             <div class="hint">密钥仅保存在您的浏览器本地，不会上传到任何服务器</div>
         </div>
         <div class="form-group">
+            <label>认证头名称</label>
+            <input type="text" id="setting-auth-header" placeholder="Authorization / api-key">
+            <div class="hint">OpenAI/DeepSeek 填 <code>Authorization</code>；MiMo 填 <code>api-key</code></div>
+        </div>
+        <div class="form-group">
+            <label>认证前缀</label>
+            <input type="text" id="setting-auth-prefix" placeholder="Bearer  / （留空）">
+            <div class="hint">OpenAI/DeepSeek 填 <code>Bearer </code>（含尾部空格）；MiMo 留空</div>
+        </div>
+        <div class="form-group">
             <label>模型名称</label>
-            <input type="text" id="setting-model" placeholder="deepseek-chat">
-            <div class="hint">DeepSeek：deepseek-chat（V3）或 deepseek-reasoner（R1）</div>
+            <input type="text" id="setting-model" placeholder="deepseek-chat / mimo-v2.5-pro">
+            <div class="hint">OpenAI 兼容接口填模型名；MiMo 填 <code>mimo-v2.5-pro</code></div>
+        </div>
+        <div class="form-group">
+            <label>API 格式</label>
+            <select id="setting-format" onchange="onFormatChange()">
+                <option value="openai">OpenAI 兼容（DeepSeek / GPT 等）</option>
+                <option value="mimo">MiMo（小米）</option>
+            </select>
         </div>
         <div class="settings-actions">
             <button class="btn-cancel" onclick="closeSettings()">取消</button>
@@ -516,7 +542,10 @@ function loadSettings() {
         const settings = JSON.parse(saved);
         document.getElementById('setting-endpoint').value = settings.endpoint || '';
         document.getElementById('setting-key').value = settings.key || '';
+        document.getElementById('setting-auth-header').value = settings.authHeader || '';
+        document.getElementById('setting-auth-prefix').value = settings.authPrefix || '';
         document.getElementById('setting-model').value = settings.model || '';
+        document.getElementById('setting-format').value = settings.format || 'openai';
     }
 }
 
@@ -533,6 +562,19 @@ function checkSettings() {
 }
 
 // ======================== Settings ========================
+function onFormatChange() {
+    const fmt = document.getElementById('setting-format').value;
+    if (fmt === 'mimo') {
+        document.getElementById('setting-endpoint').value = 'https://api.moonshot.cn';
+        document.getElementById('setting-auth-header').value = 'api-key';
+        document.getElementById('setting-auth-prefix').value = '';
+        document.getElementById('setting-model').value = 'mimo-v2.5-pro';
+    } else {
+        document.getElementById('setting-auth-header').value = 'Authorization';
+        document.getElementById('setting-auth-prefix').value = 'Bearer ';
+    }
+}
+
 function openSettings() {
     loadSettings();
     document.getElementById('settings-overlay').classList.add('open');
@@ -546,14 +588,19 @@ function closeSettings() {
 function saveSettings() {
     const endpoint = document.getElementById('setting-endpoint').value.trim();
     const key = document.getElementById('setting-key').value.trim();
+    const authHeader = document.getElementById('setting-auth-header').value.trim();
+    const authPrefix = document.getElementById('setting-auth-prefix').value;
     const model = document.getElementById('setting-model').value.trim();
+    const format = document.getElementById('setting-format').value;
 
     if (!endpoint || !key || !model) {
-        showSettingsStatus('请填写所有字段', 'error');
+        showSettingsStatus('请填写 API 端点、Key 和模型名称', 'error');
         return;
     }
 
-    localStorage.setItem('ai_chat_settings', JSON.stringify({ endpoint, key, model }));
+    localStorage.setItem('ai_chat_settings', JSON.stringify({
+        endpoint, key, authHeader, authPrefix, model, format
+    }));
     showSettingsStatus('设置已保存！', 'success');
     checkSettings();
     setTimeout(closeSettings, 800);
@@ -609,19 +656,29 @@ async function sendMessage() {
         { role: 'user', content: text }
     ];
 
+    // Build upstream body based on format
+    const isMimo = (settings.format || 'openai') === 'mimo';
+    const upstreamBody = {
+        model: settings.model,
+        messages: messages,
+        temperature: 0.7,
+    };
+    if (isMimo) {
+        upstreamBody.max_completion_tokens = 1024;
+    } else {
+        upstreamBody.max_tokens = 1000;
+    }
+
     try {
         const response = await fetch('/api/chat', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 endpoint: settings.endpoint,
                 key: settings.key,
-                model: settings.model,
-                messages: messages,
-                max_tokens: 1000,
-                temperature: 0.7
+                authHeader: settings.authHeader || 'Authorization',
+                authPrefix: settings.authPrefix || 'Bearer ',
+                upstreamBody: upstreamBody,
             })
         });
 
