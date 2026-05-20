@@ -6,6 +6,8 @@
     <title>AI 咨询 · 柳秉含</title>
     <meta name="description" content="柳秉含 AI 分身，解答软件测试、测试基建、无障碍测试相关问题。">
     <meta name="theme-color" content="#1a365d">
+    <!-- Marked.js: Markdown → HTML -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@14/marked.min.js"></script>
     <style>
         :root {
             --primary: #1a365d;
@@ -157,11 +159,107 @@
         .bubble p { margin-bottom: 8px; }
         .bubble p:last-child { margin-bottom: 0; }
         .bubble ul, .bubble ol { padding-left: 20px; margin: 8px 0; }
+        .bubble li { margin-bottom: 4px; }
         .bubble code {
             background: var(--bg-alt);
             padding: 2px 6px;
             border-radius: 4px;
+            font-size: 0.88em;
+            color: var(--primary-light);
+        }
+        /* Code blocks */
+        .bubble pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            border-radius: var(--radius-sm);
+            padding: 0;
+            margin: 10px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+        .bubble pre code {
+            display: block;
+            padding: 14px 16px;
+            background: none;
+            color: inherit;
+            font-size: 0.85em;
+            line-height: 1.5;
+            white-space: pre;
+        }
+        .copy-code-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: rgba(255,255,255,0.12);
+            border: none;
+            border-radius: 4px;
+            color: #94a3b8;
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .bubble pre:hover .copy-code-btn { opacity: 1; }
+        .copy-code-btn:hover { background: rgba(255,255,255,0.22); color: #e2e8f0; }
+        /* Tables */
+        .bubble table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
             font-size: 0.9em;
+        }
+        .bubble th, .bubble td {
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            text-align: left;
+        }
+        .bubble th {
+            background: var(--bg-alt);
+            font-weight: 600;
+            color: var(--primary);
+            white-space: nowrap;
+        }
+        .bubble tr:nth-child(even) { background: var(--bg); }
+        .bubble tr:hover { background: var(--bg-alt); }
+        /* Blockquotes */
+        .bubble blockquote {
+            border-left: 4px solid var(--accent);
+            margin: 10px 0;
+            padding: 8px 16px;
+            background: var(--bg);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            color: var(--text-light);
+        }
+        .bubble blockquote p { margin-bottom: 4px; }
+        /* Horizontal rule */
+        .bubble hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 12px 0;
+        }
+        /* Links */
+        .bubble a {
+            color: var(--primary-lighter);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+        .bubble a:hover { color: var(--accent); }
+        /* Headings inside bubble */
+        .bubble h2, .bubble h3, .bubble h4 {
+            color: var(--primary);
+            margin: 14px 0 6px;
+        }
+        .bubble h2 { font-size: 1.15em; }
+        .bubble h3 { font-size: 1.05em; }
+        .bubble h4 { font-size: 1em; }
+        /* Strikethrough */
+        .bubble del { color: var(--text-muted); }
+        /* Images inside bubble */
+        .bubble img {
+            max-width: 100%;
+            border-radius: var(--radius-sm);
+            margin: 8px 0;
         }
 
         /* Typing indicator */
@@ -283,111 +381,6 @@
             background: var(--bg-alt);
         }
 
-        /* Settings panel */
-        .settings-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 200;
-            justify-content: center;
-            align-items: center;
-        }
-        .settings-overlay.open { display: flex; }
-        .settings-panel {
-            background: var(--card-bg);
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-        }
-        .settings-panel h3 {
-            color: var(--primary);
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-        .settings-panel .form-group {
-            margin-bottom: 16px;
-        }
-        .settings-panel label {
-            display: block;
-            font-size: 0.85rem;
-            color: var(--text-light);
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-        .settings-panel input {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-size: 0.9rem;
-            outline: none;
-            transition: border-color 0.2s;
-            color: var(--text);
-            background: var(--bg);
-        }
-        .settings-panel input:focus {
-            border-color: var(--primary-light);
-        }
-        .settings-panel .hint {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-        .settings-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 24px;
-        }
-        .btn-save {
-            flex: 1;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: var(--radius-sm);
-            padding: 10px;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .btn-save:hover { background: var(--primary-light); }
-        .btn-cancel {
-            flex: 1;
-            background: var(--bg);
-            color: var(--text-light);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 10px;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .btn-cancel:hover { border-color: var(--text-muted); }
-        .form-group select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-size: 0.95rem;
-            background: var(--bg);
-            color: var(--text);
-        }
-        .status-msg {
-            padding: 8px 12px;
-            border-radius: var(--radius-sm);
-            font-size: 0.85rem;
-            margin-top: 12px;
-            display: none;
-        }
-        .status-msg.success {
-            background: rgba(22,163,74,0.1);
-            color: #16a34a;
-            display: block;
-        }
         /* Mobile */
         @media (max-width: 640px) {
             .chat-container { height: calc(100vh - 56px); }
@@ -620,42 +613,35 @@ function removeTyping() {
     if (el) el.remove();
 }
 
-// ======================== Simple Markdown Render ========================
+// ======================== Markdown Render (marked.js) ========================
+// Configure marked
+marked.setOptions({
+    breaks: true,       // GFM: single \n → <br>
+    gfm: true,          // GitHub Flavored Markdown（表格、删除线、任务列表）
+});
+
 function renderMarkdown(text) {
-    // Escape HTML
-    let html = text
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
+    const html = marked.parse(text);
+    // 给 pre 添加复制按钮
+    return html.replace(/<pre>/g, '<pre><button class="copy-code-btn" onclick="copyCode(this)">复制</button>');
+}
 
-    // Code blocks
-    html = html.replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
-
-    // Inline code
-    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
-
-    // Bold
-    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-
-    // Italic
-    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-
-    // Headers
-    html = html.replace(/^### (.+)$/gm, '<h4>$1</h4>');
-    html = html.replace(/^## (.+)$/gm, '<h3>$1</h3>');
-    html = html.replace(/^# (.+)$/gm, '<h2>$1</h2>');
-
-    // Lists
-    html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
-    html = html.replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
-
-    // Paragraphs
-    html = html.replace(/\n\n/g, '</p><p>');
-    html = '<p>' + html + '</p>';
-    html = html.replace(/<p><(h[2-4]|ul|pre)/g, '<$1');
-    html = html.replace(/<\/(h[2-4]|ul|pre)><\/p>/g, '</$1>');
-
-    return html;
+function copyCode(btn) {
+    const code = btn.nextElementSibling?.textContent || '';
+    navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = '已复制 ✓';
+        setTimeout(() => { btn.textContent = '复制'; }, 2000);
+    }).catch(() => {
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = code;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        btn.textContent = '已复制 ✓';
+        setTimeout(() => { btn.textContent = '复制'; }, 2000);
+    });
 }
 
 // ======================== Boot ========================
