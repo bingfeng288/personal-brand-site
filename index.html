@@ -365,11 +365,11 @@
             display: none;
             position: fixed;
             top: 0; right: 0;
-            width: 280px;
+            width: min(200px, 35vw);
             height: 100%;
             background: var(--card-bg);
             z-index: 1001;
-            padding: 80px 24px 24px;
+            padding: 80px 16px 24px;
             transform: translateX(100%);
             transition: transform var(--transition-slow);
             box-shadow: var(--shadow-lg);
@@ -380,15 +380,23 @@
         }
         .mobile-menu-panel a {
             display: block;
-            padding: 16px 0;
-            font-size: 1.0625rem;
+            padding: 14px 0;
+            font-size: 0.9375rem;
             font-weight: 500;
             color: var(--text);
             border-bottom: 1px solid var(--border);
         }
+        .mobile-menu-panel .mobile-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
         .mobile-menu-panel .lang-toggle {
-            margin-top: 24px;
-            width: 100%;
+            flex: 1;
+            padding: 6px 12px;
+            font-size: 0.8125rem;
+            min-height: 36px;
             justify-content: center;
         }
 
@@ -1123,13 +1131,13 @@
         <a href="#credentials" data-i18n="nav_credentials">资质</a>
         <a href="#experience" data-i18n="nav_experience">经历</a>
         <a href="#contact" data-i18n="nav_contact">联系</a>
-        <div style="display:flex; align-items:center; gap:8px; margin-top:24px;">
+        <div class="mobile-controls">
             <button class="theme-toggle" onclick="cycleTheme()" aria-label="切换主题">
                 <span class="icon-sun" aria-hidden="true">☀️</span>
                 <span class="icon-moon" aria-hidden="true">🌙</span>
                 <span class="icon-auto" aria-hidden="true">🖥️</span>
             </button>
-            <button class="lang-toggle" onclick="toggleLang()" data-i18n="lang_switch" style="flex:1;">EN</button>
+            <button class="lang-toggle" onclick="toggleLang()" data-i18n="lang_switch">EN</button>
         </div>
     </div>
 
