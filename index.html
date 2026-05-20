@@ -120,7 +120,7 @@
             :root:not([data-theme="light"]) .btn-outline { border-color: rgba(232,184,77,0.4); color: var(--accent); }
             :root:not([data-theme="light"]) .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
             :root:not([data-theme="light"]) .call-link { background: var(--success); }
-            :root:not([data-theme="light"]) #copyWechatBtn { background: var(--bg-alt); border-color: var(--border); color: var(--primary); }
+            :root:not([data-theme="light"]) .copy-wechat-btn { background: var(--bg-alt); border-color: var(--border); color: var(--primary); }
             :root:not([data-theme="light"]) .logo { color: #e2e8f0; }
             :root:not([data-theme="light"]) .logo span { color: var(--accent); }
             :root:not([data-theme="light"]) .nav-links a { color: #e2e8f0; }
@@ -181,7 +181,7 @@
         [data-theme="dark"] .btn-outline { border-color: rgba(232,184,77,0.4); color: var(--accent); }
         [data-theme="dark"] .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
         [data-theme="dark"] .call-link { background: var(--success); }
-        [data-theme="dark"] #copyWechatBtn { background: var(--bg-alt); border-color: var(--border); color: var(--primary); }
+        [data-theme="dark"] .copy-wechat-btn { background: var(--bg-alt); border-color: var(--border); color: var(--primary); }
         [data-theme="dark"] .logo { color: #e2e8f0; }
         [data-theme="dark"] .logo span { color: var(--accent); }
         [data-theme="dark"] .nav-links a { color: #e2e8f0; }
@@ -966,6 +966,30 @@
             color: white;
             transform: translateY(-1px);
         }
+        .copy-wechat-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 14px;
+            background: var(--bg-alt);
+            color: var(--primary);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+        .copy-wechat-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        .copy-wechat-btn.copied {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
 
         /* ========== Footer ========== */
         footer {
@@ -1366,11 +1390,21 @@
                         <div class="contact-item">
                             <div class="contact-icon" aria-hidden="true">📱</div>
                             <div>
-                                <strong data-i18n="contact_phone_label">手机 / 微信</strong>
-                                <div style="margin-top: 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                                <strong data-i18n="contact_phone_label">手机</strong>
+                                <div style="margin-top: 8px;">
                                     <a href="tel:18336972050" class="call-link">📞 <span data-i18n="contact_call">立即拨打</span> 18336972050</a>
-                                    <span style="font-size: 0.8125rem; color: var(--text-muted);" data-i18n="contact_wechat_note">同微信号，请备注「测试服务」</span>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon" aria-hidden="true">💬</div>
+                            <div>
+                                <strong data-i18n="contact_wechat_label">微信</strong>
+                                <div style="margin-top: 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                                    <span style="font-weight: 600; color: var(--primary); font-size: 1.05rem;">18336972050</span>
+                                    <button type="button" class="copy-wechat-btn" data-i18n="form_copy_wechat">📋 复制微信号</button>
+                                </div>
+                                <span style="font-size: 0.8125rem; color: var(--text-muted);" data-i18n="contact_wechat_note">请备注「测试服务」</span>
                             </div>
                         </div>
                         <div class="contact-item">
@@ -1422,12 +1456,6 @@
                                 <textarea id="formMessage" name="项目需求" placeholder="简单描述项目类型、验收时间、当前测试状况..." rows="4" data-i18n-placeholder="form_message_ph"></textarea>
                             </div>
                             <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%;" data-i18n="form_submit">发送邮件</button>
-                            <div style="display: flex; align-items: center; gap: 12px; margin-top: 16px;">
-                                <div style="flex: 1; height: 1px; background: var(--border);"></div>
-                                <span style="font-size: 0.8125rem; color: var(--text-muted);" data-i18n="form_or">或</span>
-                                <div style="flex: 1; height: 1px; background: var(--border);"></div>
-                            </div>
-                            <button type="button" id="copyWechatBtn" class="btn" style="width: 100%; margin-top: 16px; background: var(--bg-alt); color: var(--primary); border: 2px solid var(--border); font-weight: 600;" data-i18n="form_copy_wechat">📋 复制微信号，直接联系</button>
                             <p style="text-align: center; font-size: 0.8125rem; color: var(--text-muted); margin-top: 12px;" data-i18n="form_hint">点击发送邮件将打开邮箱客户端，24 小时内回复</p>
                         </form>
                     </div>
@@ -1556,8 +1584,9 @@
                 contact_direct: "直接联系我",
                 contact_note: "杭州地区可面谈，异地项目支持远程交付。紧急需求请直接微信联系。",
                 contact_loc_label: "所在地", contact_loc_value: "浙江杭州",
-                contact_phone_label: "手机 / 微信", contact_call: "立即拨打",
-                contact_wechat_note: "同微信号，请备注「测试服务」",
+                contact_phone_label: "手机", contact_call: "立即拨打",
+                contact_wechat_label: "微信",
+                contact_wechat_note: "请备注「测试服务」",
                 contact_email_label: "邮箱",
                 contact_response_label: "响应时间", contact_response_value: "工作日 24 小时内回复",
                 contact_qr_title: "扫码添加", contact_qr_wechat: "企业微信", contact_qr_feishu: "飞书", contact_qr_dingtalk: "钉钉",
@@ -1647,8 +1676,9 @@
                 contact_direct: "Contact Me Directly",
                 contact_note: "In-person in Hangzhou, remote delivery for other locations. For urgent needs, contact via WeChat.",
                 contact_loc_label: "Location", contact_loc_value: "Hangzhou, Zhejiang",
-                contact_phone_label: "Phone / WeChat", contact_call: "Call Now",
-                contact_wechat_note: "Same as WeChat ID, note: 'Testing Service'",
+                contact_phone_label: "Phone", contact_call: "Call Now",
+                contact_wechat_label: "WeChat",
+                contact_wechat_note: "Note: 'Testing Service'",
                 contact_email_label: "Email",
                 contact_response_label: "Response Time", contact_response_value: "Within 24 hours on business days",
                 contact_qr_title: "Scan to Add", contact_qr_wechat: "WeChat Work", contact_qr_feishu: "Feishu", contact_qr_dingtalk: "DingTalk",
@@ -1825,42 +1855,34 @@
             });
 
             // Copy WeChat ID
-            document.getElementById('copyWechatBtn').addEventListener('click', function() {
+            document.querySelector('.copy-wechat-btn').addEventListener('click', function() {
+                const btn = this;
                 const wechatId = '18336972050';
+                function showCopied() {
+                    btn.classList.add('copied');
+                    const original = btn.textContent;
+                    btn.textContent = '✅ 已复制';
+                    setTimeout(() => {
+                        btn.classList.remove('copied');
+                        btn.textContent = original;
+                    }, 2000);
+                }
                 if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(wechatId).then(showCopySuccess).catch(() => fallbackCopy(wechatId));
+                    navigator.clipboard.writeText(wechatId).then(showCopied).catch(() => {
+                        const ta = document.createElement('textarea');
+                        ta.value = wechatId; ta.style.cssText = 'position:fixed;opacity:0';
+                        document.body.appendChild(ta); ta.select();
+                        try { document.execCommand('copy'); showCopied(); } catch(e) { alert('微信号：' + wechatId); }
+                        document.body.removeChild(ta);
+                    });
                 } else {
-                    fallbackCopy(wechatId);
+                    const ta = document.createElement('textarea');
+                    ta.value = wechatId; ta.style.cssText = 'position:fixed;opacity:0';
+                    document.body.appendChild(ta); ta.select();
+                    try { document.execCommand('copy'); showCopied(); } catch(e) { alert('微信号：' + wechatId); }
+                    document.body.removeChild(ta);
                 }
             });
-
-            function fallbackCopy(txt) {
-                const ta = document.createElement('textarea');
-                ta.value = txt;
-                ta.style.cssText = 'position:fixed;opacity:0';
-                document.body.appendChild(ta);
-                ta.select();
-                try {
-                    document.execCommand('copy');
-                    showCopySuccess();
-                } catch(err) {
-                    alert('微信号：' + txt + '（请手动复制）');
-                }
-                document.body.removeChild(ta);
-            }
-
-            function showCopySuccess() {
-                const btn = document.getElementById('copyWechatBtn');
-                const original = btn.innerHTML;
-                btn.innerHTML = '✅ 已复制微信号 18336972050';
-                btn.style.borderColor = '#16a34a';
-                btn.style.color = '#16a34a';
-                setTimeout(() => {
-                    btn.innerHTML = original;
-                    btn.style.borderColor = '';
-                    btn.style.color = '';
-                }, 2000);
-            }
         })();
     </script>
 </body>
