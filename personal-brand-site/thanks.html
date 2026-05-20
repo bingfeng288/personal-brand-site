@@ -4,70 +4,113 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>提交成功 - 柳秉含</title>
+    <meta name="theme-color" content="#1a365d">
     <style>
         :root {
             --primary: #1a365d;
             --accent: #d69e2e;
+            --accent-hover: #b7791f;
+            --bg: #f7fafc;
+            --text: #1a202c;
+            --text-light: #4a5568;
+            --border: #e2e8f0;
+            --card-bg: #ffffff;
+            --radius-lg: 20px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --success: #38a169;
+            --transition: 0.2s ease;
         }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0f172a;
+                --card-bg: #1e293b;
+                --text: #f1f5f9;
+                --text-light: #cbd5e1;
+                --border: #334155;
+            }
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            background: #f7fafc;
-            color: #1a202c;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
         }
+
+        :focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 2px;
+        }
+
         .success-card {
             text-align: center;
             padding: 60px 40px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
             max-width: 480px;
+            margin: 24px;
+            border: 1px solid var(--border);
         }
+
         .success-icon {
             font-size: 4rem;
             margin-bottom: 20px;
         }
+
         h1 {
             font-size: 1.75rem;
             color: var(--primary);
             margin-bottom: 12px;
         }
+
         p {
-            color: #4a5568;
+            color: var(--text-light);
             font-size: 1.0625rem;
             margin-bottom: 32px;
-            line-height: 1.7;
         }
+
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             padding: 14px 32px;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
             background: var(--accent);
             color: white;
             text-decoration: none;
-            transition: all 0.2s;
+            transition: all var(--transition);
+            border: none;
+            min-height: 48px;
         }
+
         .btn:hover {
-            background: #b7791f;
+            background: var(--accent-hover);
+            color: white;
             transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
-    <div class="success-card">
-        <div class="success-icon">✅</div>
-        <h1>需求已收到</h1>
-        <p>感谢你的信任！我会在 24 小时内通过你留下的联系方式回复。如有紧急需求，请直接微信联系：18336972050</p>
-        <a href="index.html" class="btn">返回首页</a>
-    </div>
+    <main>
+        <div class="success-card" role="status" aria-live="polite">
+            <div class="success-icon" aria-hidden="true">✅</div>
+            <h1>需求已收到</h1>
+            <p>感谢你的信任！我会在 24 小时内通过你留下的联系方式回复。如有紧急需求，请直接微信联系：18336972050</p>
+            <a href="index.html" class="btn">返回首页</a>
+        </div>
+    </main>
 </body>
 </html>

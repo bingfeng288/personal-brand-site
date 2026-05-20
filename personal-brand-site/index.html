@@ -5,47 +5,243 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>柳秉含 — 软件评测师 | 测试交付专家</title>
     <meta name="description" content="柳秉含，国家认证软件评测师，7年软件测试经验，专注政务项目测试验收、测试基础设施搭建与信息无障碍合规测试。AI加速交付，一人成军。">
+    <meta name="theme-color" content="#1a365d">
+    <meta property="og:title" content="柳秉含 — 软件评测师 | 测试交付专家">
+    <meta property="og:description" content="国家认证软件评测师，7年实战经验，AI加速测试交付服务。">
+    <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <style>
         :root {
             --primary: #1a365d;
             --primary-light: #2c5282;
-            --accent: #d69e2e;
-            --accent-hover: #b7791f;
-            --bg: #f7fafc;
+            --primary-lighter: #3b6baa;
+            --accent: #c48a1f;
+            --accent-hover: #a67516;
+            --accent-light: rgba(196,138,31,0.10);
+            --success: #16a34a;
+            --success-light: rgba(22,163,74,0.10);
+            --bg: #f5f7fa;
+            --bg-alt: #eaeff5;
             --bg-dark: #0f172a;
             --text: #1a202c;
-            --text-light: #4a5568;
-            --text-muted: #718096;
-            --border: #e2e8f0;
+            --text-light: #3d4a5c;
+            --text-muted: #5f6d7e;
+            --border: #d8e0ea;
             --card-bg: #ffffff;
-            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.04);
+            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.08), 0 10px 10px -5px rgba(0,0,0,0.03);
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --radius-full: 100px;
+            --transition: 0.2s ease;
+            --transition-slow: 0.3s ease;
         }
 
-        * {
-            margin: 0;
+        /* Theme toggle button */
+        .theme-toggle {
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.125rem;
+            transition: all var(--transition);
             padding: 0;
-            box-sizing: border-box;
+            color: var(--text-light);
+            line-height: 1;
         }
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .theme-toggle .icon-sun,
+        .theme-toggle .icon-moon,
+        .theme-toggle .icon-auto { display: none; }
+        [data-theme="dark"] .theme-toggle .icon-moon { display: inline; }
+        [data-theme="light"] .theme-toggle .icon-sun { display: inline; }
+        :root:not([data-theme]) .theme-toggle .icon-auto { display: inline; }
+        :root:not([data-theme]) .theme-toggle .icon-sun,
+        :root:not([data-theme]) .theme-toggle .icon-moon { display: none; }
+
+        /* Dark mode: auto (system preference) */
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #0c1222;
+                --bg-alt: #162032;
+                --bg-dark: #060a14;
+                --text: #e8edf5;
+                --text-light: #b8c4d6;
+                --text-muted: #7e8fa6;
+                --border: #2a3a52;
+                --card-bg: #141e30;
+                --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+                --shadow: 0 4px 6px -1px rgba(0,0,0,0.5);
+                --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.6);
+                --primary: #a0c4f0;
+                --primary-light: #7db4e8;
+                --primary-lighter: #5da4de;
+                --accent: #e8b84d;
+                --accent-hover: #d4a53a;
+                --accent-light: rgba(232,184,77,0.12);
+                --success: #5cc98a;
+                --success-light: rgba(92,201,138,0.12);
+            }
+            :root:not([data-theme="light"]) .hero { background: linear-gradient(135deg, #060a14 0%, #162032 100%); }
+            :root:not([data-theme="light"]) .hero h1 .accent { color: var(--accent); }
+            :root:not([data-theme="light"]) .cta-section { background: linear-gradient(135deg, #162032 0%, #060a14 100%); }
+            :root:not([data-theme="light"]) nav { background: rgba(12,18,34,0.95); }
+            :root:not([data-theme="light"]) .mobile-menu-panel { background: var(--card-bg); }
+            :root:not([data-theme="light"]) .mobile-menu-panel a { color: var(--text); }
+            :root:not([data-theme="light"]) .slider-captcha { background: linear-gradient(135deg, #162032, #2a3a52); }
+            :root:not([data-theme="light"]) .slider-captcha-text { color: var(--text-muted); }
+            :root:not([data-theme="light"]) .service-card h3,
+            :root:not([data-theme="light"]) .cred-item h4,
+            :root:not([data-theme="light"]) .diff-content h4,
+            :root:not([data-theme="light"]) .timeline-title,
+            :root:not([data-theme="light"]) .contact-info h3,
+            :root:not([data-theme="light"]) .section-header h2,
+            :root:not([data-theme="light"]) #why h2 { color: var(--primary); }
+            :root:not([data-theme="light"]) .section-tag { color: var(--accent); background: var(--accent-light); }
+            :root:not([data-theme="light"]) .service-card.featured { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), var(--shadow); }
+            :root:not([data-theme="light"]) .cred-item { background: var(--bg-alt); border-color: var(--border); }
+            :root:not([data-theme="light"]) .contact-icon { background: var(--bg-alt); }
+            :root:not([data-theme="light"]) .timeline-year { background: var(--primary); color: var(--bg-dark); }
+            :root:not([data-theme="light"]) footer { background: var(--bg-dark); }
+            :root:not([data-theme="light"]) .form-group input,
+            :root:not([data-theme="light"]) .form-group textarea { background: var(--bg-alt); border-color: var(--border); color: var(--text); }
+            :root:not([data-theme="light"]) .form-group input::placeholder,
+            :root:not([data-theme="light"]) .form-group textarea::placeholder { color: var(--text-muted); }
+            :root:not([data-theme="light"]) .form-group label { color: var(--primary); }
+            :root:not([data-theme="light"]) .btn-outline { border-color: rgba(232,184,77,0.4); color: var(--accent); }
+            :root:not([data-theme="light"]) .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+            :root:not([data-theme="light"]) .call-link { background: var(--success); }
+            :root:not([data-theme="light"]) #copyWechatBtn { background: var(--bg-alt); border-color: var(--border); color: var(--primary); }
+            :root:not([data-theme="light"]) .logo { color: #e2e8f0; }
+            :root:not([data-theme="light"]) .logo span { color: var(--accent); }
+            :root:not([data-theme="light"]) .nav-links a { color: #e2e8f0; }
+            :root:not([data-theme="light"]) .nav-links a:hover { color: var(--accent); }
+            :root:not([data-theme="light"]) .lang-toggle { color: #e2e8f0; border-color: #4a5f7a; }
+            :root:not([data-theme="light"]) .lang-toggle:hover { color: var(--accent); border-color: var(--accent); }
+            :root:not([data-theme="light"]) .hero-card { border-color: rgba(232,184,77,0.15); }
+            :root:not([data-theme="light"]) .diff-visual { background: linear-gradient(135deg, #162032, #1a2a44); border: 1px solid var(--border); }
+        }
+
+        /* Dark mode: manual override */
+        [data-theme="dark"] {
+            --bg: #0c1222;
+            --bg-alt: #162032;
+            --bg-dark: #060a14;
+            --text: #e8edf5;
+            --text-light: #b8c4d6;
+            --text-muted: #7e8fa6;
+            --border: #2a3a52;
+            --card-bg: #141e30;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.5);
+            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.6);
+            --primary: #a0c4f0;
+            --primary-light: #7db4e8;
+            --primary-lighter: #5da4de;
+            --accent: #e8b84d;
+            --accent-hover: #d4a53a;
+            --accent-light: rgba(232,184,77,0.12);
+            --success: #5cc98a;
+            --success-light: rgba(92,201,138,0.12);
+        }
+        [data-theme="dark"] .hero { background: linear-gradient(135deg, #060a14 0%, #162032 100%); }
+        [data-theme="dark"] .hero h1 .accent { color: var(--accent); }
+        [data-theme="dark"] .cta-section { background: linear-gradient(135deg, #162032 0%, #060a14 100%); }
+        [data-theme="dark"] nav { background: rgba(12,18,34,0.95); }
+        [data-theme="dark"] .mobile-menu-panel { background: var(--card-bg); }
+        [data-theme="dark"] .mobile-menu-panel a { color: var(--text); }
+        [data-theme="dark"] .slider-captcha { background: linear-gradient(135deg, #162032, #2a3a52); }
+        [data-theme="dark"] .slider-captcha-text { color: var(--text-muted); }
+        [data-theme="dark"] .service-card h3,
+        [data-theme="dark"] .cred-item h4,
+        [data-theme="dark"] .diff-content h4,
+        [data-theme="dark"] .timeline-title,
+        [data-theme="dark"] .contact-info h3,
+        [data-theme="dark"] .section-header h2,
+        [data-theme="dark"] #why h2 { color: var(--primary); }
+        [data-theme="dark"] .section-tag { color: var(--accent); background: var(--accent-light); }
+        [data-theme="dark"] .service-card.featured { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), var(--shadow); }
+        [data-theme="dark"] .cred-item { background: var(--bg-alt); border-color: var(--border); }
+        [data-theme="dark"] .contact-icon { background: var(--bg-alt); }
+        [data-theme="dark"] .timeline-year { background: var(--primary); color: var(--bg-dark); }
+        [data-theme="dark"] footer { background: var(--bg-dark); }
+        [data-theme="dark"] .form-group input,
+        [data-theme="dark"] .form-group textarea { background: var(--bg-alt); border-color: var(--border); color: var(--text); }
+        [data-theme="dark"] .form-group input::placeholder,
+        [data-theme="dark"] .form-group textarea::placeholder { color: var(--text-muted); }
+        [data-theme="dark"] .form-group label { color: var(--primary); }
+        [data-theme="dark"] .btn-outline { border-color: rgba(232,184,77,0.4); color: var(--accent); }
+        [data-theme="dark"] .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+        [data-theme="dark"] .call-link { background: var(--success); }
+        [data-theme="dark"] #copyWechatBtn { background: var(--bg-alt); border-color: var(--border); color: var(--primary); }
+        [data-theme="dark"] .logo { color: #e2e8f0; }
+        [data-theme="dark"] .logo span { color: var(--accent); }
+        [data-theme="dark"] .nav-links a { color: #e2e8f0; }
+        [data-theme="dark"] .nav-links a:hover { color: var(--accent); }
+        [data-theme="dark"] .lang-toggle { color: #e2e8f0; border-color: #4a5f7a; }
+        [data-theme="dark"] .lang-toggle:hover { color: var(--accent); border-color: var(--accent); }
+        [data-theme="dark"] .hero-card { border-color: rgba(232,184,77,0.15); }
+        [data-theme="dark"] .diff-visual { background: linear-gradient(135deg, #162032, #1a2a44); border: 1px solid var(--border); }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+            html { scroll-behavior: auto; }
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
             color: var(--text);
             background: var(--bg);
-            line-height: 1.7;
+            line-height: 1.75;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Skip link */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 16px;
+            background: var(--accent);
+            color: white;
+            padding: 12px 24px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            z-index: 9999;
+            transition: top var(--transition);
+        }
+        .skip-link:focus {
+            top: 16px;
+        }
+
+        /* Focus styles */
+        :focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 2px;
         }
 
         a {
             color: var(--primary-light);
             text-decoration: none;
-            transition: color 0.2s;
+            transition: color var(--transition);
         }
-
-        a:hover {
-            color: var(--accent);
-        }
+        a:hover { color: var(--accent); }
 
         .container {
             max-width: 1200px;
@@ -53,22 +249,18 @@
             padding: 0 24px;
         }
 
-        /* Navigation */
+        /* ========== Navigation ========== */
         nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
             z-index: 1000;
-            transition: box-shadow 0.3s;
+            transition: box-shadow var(--transition-slow);
         }
-
-        nav.scrolled {
-            box-shadow: var(--shadow);
-        }
+        nav.scrolled { box-shadow: var(--shadow); }
 
         nav .container {
             display: flex;
@@ -83,10 +275,7 @@
             color: var(--primary);
             letter-spacing: -0.02em;
         }
-
-        .logo span {
-            color: var(--accent);
-        }
+        .logo span { color: var(--accent); }
 
         .nav-links {
             display: flex;
@@ -95,25 +284,121 @@
             font-size: 0.9375rem;
             font-weight: 500;
         }
-
         .nav-links a {
             color: var(--text-light);
+            padding: 8px 0;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 2px;
+            background: var(--accent);
+            transition: width var(--transition);
+        }
+        .nav-links a:hover::after,
+        .nav-links a:focus-visible::after {
+            width: 100%;
+        }
+        .nav-links a:hover { color: var(--primary); }
+
+        /* Language toggle */
+        .lang-toggle {
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            padding: 6px 14px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all var(--transition);
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .lang-toggle:hover {
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
+        /* Mobile menu button */
         .mobile-menu-btn {
             display: none;
             background: none;
             border: none;
-            font-size: 1.5rem;
+            width: 44px;
+            height: 44px;
             cursor: pointer;
             color: var(--primary);
+            position: relative;
+        }
+        .mobile-menu-btn span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: currentColor;
+            margin: 5px auto;
+            transition: all var(--transition);
+            border-radius: 2px;
+        }
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
         }
 
-        /* Hero */
+        /* Mobile menu overlay */
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity var(--transition-slow);
+        }
+        .mobile-menu-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .mobile-menu-panel {
+            display: none;
+            position: fixed;
+            top: 0; right: 0;
+            width: 280px;
+            height: 100%;
+            background: var(--card-bg);
+            z-index: 1001;
+            padding: 80px 24px 24px;
+            transform: translateX(100%);
+            transition: transform var(--transition-slow);
+            box-shadow: var(--shadow-lg);
+        }
+        .mobile-menu-panel.active {
+            display: block;
+            transform: translateX(0);
+        }
+        .mobile-menu-panel a {
+            display: block;
+            padding: 16px 0;
+            font-size: 1.0625rem;
+            font-weight: 500;
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
+        }
+        .mobile-menu-panel .lang-toggle {
+            margin-top: 24px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* ========== Hero ========== */
         .hero {
             padding: 140px 0 80px;
             background: linear-gradient(135deg, var(--bg-dark) 0%, var(--primary) 100%);
@@ -121,22 +406,16 @@
             position: relative;
             overflow: hidden;
         }
-
         .hero::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(214,158,46,0.15) 0%, transparent 70%);
+            top: -50%; right: -20%;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(196,138,31,0.12) 0%, transparent 70%);
             border-radius: 50%;
+            pointer-events: none;
         }
-
-        .hero .container {
-            position: relative;
-            z-index: 1;
-        }
+        .hero .container { position: relative; z-index: 1; }
 
         .hero-grid {
             display: grid;
@@ -149,24 +428,21 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(214,158,46,0.2);
+            background: rgba(196,138,31,0.2);
             color: var(--accent);
             padding: 8px 16px;
-            border-radius: 100px;
+            border-radius: var(--radius-full);
             font-size: 0.875rem;
             font-weight: 600;
             margin-bottom: 24px;
-            border: 1px solid rgba(214,158,46,0.3);
+            border: 1px solid rgba(196,138,31,0.3);
         }
-
         .hero-badge .dot {
-            width: 8px;
-            height: 8px;
+            width: 8px; height: 8px;
             background: var(--accent);
             border-radius: 50%;
             animation: pulse 2s infinite;
         }
-
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
@@ -179,10 +455,7 @@
             margin-bottom: 16px;
             letter-spacing: -0.02em;
         }
-
-        .hero h1 .accent {
-            color: var(--accent);
-        }
+        .hero h1 .accent { color: var(--accent); }
 
         .hero-subtitle {
             font-size: 1.25rem;
@@ -196,18 +469,13 @@
             gap: 32px;
             margin-bottom: 40px;
         }
-
-        .stat {
-            text-align: center;
-        }
-
+        .stat { text-align: center; }
         .stat-number {
             font-size: 2rem;
             font-weight: 800;
             color: var(--accent);
             line-height: 1;
         }
-
         .stat-label {
             font-size: 0.875rem;
             color: rgba(255,255,255,0.7);
@@ -220,37 +488,36 @@
             flex-wrap: wrap;
         }
 
+        /* Buttons */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             padding: 14px 32px;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all var(--transition);
             border: none;
+            min-height: 48px;
+            text-decoration: none;
         }
-
         .btn-primary {
             background: var(--accent);
             color: white;
         }
-
         .btn-primary:hover {
             background: var(--accent-hover);
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px -5px rgba(214,158,46,0.4);
+            box-shadow: 0 10px 20px -5px rgba(196,138,31,0.4);
         }
-
         .btn-outline {
             background: transparent;
             color: white;
             border: 2px solid rgba(255,255,255,0.3);
         }
-
         .btn-outline:hover {
             border-color: var(--accent);
             color: var(--accent);
@@ -261,54 +528,42 @@
             background: rgba(255,255,255,0.08);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 20px;
+            border-radius: var(--radius-lg);
             padding: 32px;
         }
-
-        .cert-showcase {
-            text-align: center;
-        }
-
+        .cert-showcase { text-align: center; }
         .cert-showcase img {
             max-width: 100%;
-            border-radius: 12px;
+            border-radius: var(--radius);
             box-shadow: 0 20px 40px -10px rgba(0,0,0,0.4);
             margin-bottom: 16px;
         }
-
         .cert-meta {
             font-size: 0.875rem;
             color: rgba(255,255,255,0.7);
         }
+        .cert-meta strong { color: var(--accent); }
 
-        .cert-meta strong {
-            color: var(--accent);
-        }
-
-        /* Sections */
-        section {
-            padding: 80px 0;
-        }
+        /* ========== Sections ========== */
+        section { padding: 96px 0; }
 
         .section-header {
             text-align: center;
             max-width: 640px;
             margin: 0 auto 56px;
         }
-
         .section-tag {
             display: inline-block;
-            background: rgba(26,54,93,0.08);
-            color: var(--primary);
+            background: var(--accent-light);
+            color: var(--accent-hover);
             padding: 6px 16px;
-            border-radius: 100px;
+            border-radius: var(--radius-full);
             font-size: 0.8125rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin-bottom: 16px;
         }
-
         .section-header h2 {
             font-size: 2.25rem;
             font-weight: 800;
@@ -316,61 +571,51 @@
             margin-bottom: 16px;
             letter-spacing: -0.02em;
         }
-
         .section-header p {
             color: var(--text-light);
             font-size: 1.0625rem;
         }
 
-        /* Services */
-        .services {
-            background: var(--bg);
-        }
+        /* ========== Services ========== */
+        .services { background: var(--bg); }
 
         .services-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 24px;
         }
-
         .service-card {
             background: var(--card-bg);
-            border-radius: 16px;
+            border-radius: var(--radius-lg);
             padding: 40px 32px;
             border: 1px solid var(--border);
-            transition: all 0.3s;
+            transition: all var(--transition-slow);
             position: relative;
         }
-
         .service-card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-lg);
             border-color: transparent;
         }
-
         .service-card.featured {
             border-color: var(--accent);
             box-shadow: 0 0 0 1px var(--accent), var(--shadow);
         }
-
         .service-card.featured::before {
-            content: '推荐';
+            content: attr(data-recommended);
             position: absolute;
-            top: 16px;
-            right: 16px;
+            top: 16px; right: 16px;
             background: var(--accent);
             color: white;
             font-size: 0.75rem;
             font-weight: 700;
             padding: 4px 12px;
-            border-radius: 100px;
+            border-radius: var(--radius-full);
         }
-
         .service-icon {
-            width: 56px;
-            height: 56px;
+            width: 56px; height: 56px;
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            border-radius: 14px;
+            border-radius: var(--radius);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -378,100 +623,84 @@
             margin-bottom: 24px;
             color: white;
         }
-
         .service-card h3 {
             font-size: 1.25rem;
             font-weight: 700;
             color: var(--primary);
             margin-bottom: 12px;
         }
-
         .service-card p {
             color: var(--text-light);
             font-size: 0.9375rem;
             margin-bottom: 20px;
         }
-
-        .service-features {
-            list-style: none;
-        }
-
+        .service-features { list-style: none; }
         .service-features li {
             display: flex;
             align-items: flex-start;
             gap: 8px;
-            font-size: 0.875rem;
+            font-size: 0.9375rem;
             color: var(--text-light);
             margin-bottom: 8px;
+            line-height: 1.6;
         }
-
         .service-features li::before {
             content: '✓';
-            color: var(--accent);
+            color: var(--success);
             font-weight: 700;
             flex-shrink: 0;
         }
 
-        /* Credentials */
-        .credentials {
-            background: var(--card-bg);
-        }
+        /* ========== Credentials ========== */
+        .credentials { background: var(--card-bg); }
 
         .cred-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 24px;
         }
-
         .cred-item {
             text-align: center;
             padding: 32px 20px;
             background: var(--bg);
-            border-radius: 16px;
+            border-radius: var(--radius-lg);
             border: 1px solid var(--border);
+            transition: transform var(--transition), box-shadow var(--transition);
         }
-
-        .cred-icon {
-            font-size: 2.5rem;
-            margin-bottom: 12px;
+        .cred-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
         }
-
+        .cred-icon { font-size: 2.5rem; margin-bottom: 12px; }
         .cred-item h4 {
             font-size: 1.5rem;
             font-weight: 800;
             color: var(--primary);
             margin-bottom: 4px;
         }
-
         .cred-item p {
             font-size: 0.875rem;
             color: var(--text-muted);
         }
 
-        /* Differentiators */
+        /* ========== Differentiators ========== */
         .diff-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 40px;
             align-items: center;
         }
-
-        .diff-list {
-            list-style: none;
-        }
-
+        .diff-list { list-style: none; }
         .diff-list li {
             display: flex;
             gap: 20px;
             margin-bottom: 32px;
         }
-
         .diff-num {
-            width: 48px;
-            height: 48px;
+            width: 48px; height: 48px;
             background: linear-gradient(135deg, var(--accent), var(--accent-hover));
             color: white;
-            border-radius: 12px;
+            border-radius: var(--radius);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -479,14 +708,12 @@
             font-size: 1.25rem;
             flex-shrink: 0;
         }
-
         .diff-content h4 {
             font-size: 1.125rem;
             font-weight: 700;
             color: var(--primary);
             margin-bottom: 6px;
         }
-
         .diff-content p {
             color: var(--text-light);
             font-size: 0.9375rem;
@@ -494,153 +721,130 @@
 
         .diff-visual {
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            border-radius: 20px;
+            border-radius: var(--radius-lg);
             padding: 48px;
             color: white;
             position: relative;
             overflow: hidden;
         }
-
         .diff-visual::before {
             content: '';
             position: absolute;
-            top: -30%;
-            right: -30%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(214,158,46,0.2) 0%, transparent 70%);
+            top: -30%; right: -30%;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(196,138,31,0.2) 0%, transparent 70%);
             border-radius: 50%;
+            pointer-events: none;
         }
-
         .diff-visual h3 {
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 16px;
         }
-
         .diff-visual p {
             color: rgba(255,255,255,0.85);
             margin-bottom: 24px;
         }
-
         .diff-badges {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
         }
-
         .diff-badge {
             background: rgba(255,255,255,0.15);
             padding: 8px 16px;
-            border-radius: 100px;
+            border-radius: var(--radius-full);
             font-size: 0.875rem;
             font-weight: 500;
             border: 1px solid rgba(255,255,255,0.2);
         }
 
-        /* Timeline */
-        .timeline {
-            background: var(--bg);
-        }
+        /* ========== Timeline ========== */
+        .timeline { background: var(--bg); }
 
         .timeline-wrap {
             position: relative;
             max-width: 800px;
             margin: 0 auto;
         }
-
         .timeline-wrap::before {
             content: '';
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            top: 0;
-            bottom: 0;
+            top: 0; bottom: 0;
             width: 2px;
             background: var(--border);
         }
-
         .timeline-item {
             display: flex;
             margin-bottom: 40px;
             position: relative;
         }
-
         .timeline-item:nth-child(odd) {
             flex-direction: row-reverse;
             text-align: right;
         }
-
         .timeline-item:nth-child(odd) .timeline-content {
             padding-right: 40px;
             padding-left: 0;
         }
-
         .timeline-item:nth-child(even) .timeline-content {
             padding-left: 40px;
         }
-
         .timeline-dot {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            width: 16px;
-            height: 16px;
+            width: 16px; height: 16px;
             background: var(--accent);
             border-radius: 50%;
             border: 3px solid var(--bg);
             z-index: 2;
         }
-
         .timeline-content {
             width: 50%;
             padding: 0 20px;
         }
-
         .timeline-year {
             display: inline-block;
             background: var(--primary);
             color: white;
             padding: 4px 12px;
-            border-radius: 100px;
+            border-radius: var(--radius-full);
             font-size: 0.8125rem;
             font-weight: 700;
             margin-bottom: 8px;
         }
-
         .timeline-title {
             font-size: 1.125rem;
             font-weight: 700;
             color: var(--primary);
             margin-bottom: 6px;
         }
-
         .timeline-desc {
             font-size: 0.9375rem;
             color: var(--text-light);
         }
 
-        /* CTA Section */
+        /* ========== CTA ========== */
         .cta-section {
             background: linear-gradient(135deg, var(--primary) 0%, var(--bg-dark) 100%);
             color: white;
             text-align: center;
             padding: 100px 0;
         }
-
         .cta-section h2 {
             font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 16px;
         }
-
         .cta-section p {
             font-size: 1.125rem;
             color: rgba(255,255,255,0.85);
             max-width: 560px;
             margin: 0 auto 32px;
         }
-
         .cta-buttons {
             display: flex;
             gap: 16px;
@@ -648,52 +852,45 @@
             flex-wrap: wrap;
         }
 
-        /* Contact */
+        /* ========== Contact ========== */
         .contact-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 48px;
             align-items: start;
         }
-
         .contact-info h3 {
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary);
             margin-bottom: 16px;
         }
-
         .contact-info p {
             color: var(--text-light);
             margin-bottom: 24px;
         }
-
         .contact-item {
             display: flex;
             align-items: center;
             gap: 16px;
             margin-bottom: 20px;
         }
-
         .contact-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--bg);
-            border-radius: 12px;
+            width: 48px; height: 48px;
+            background: var(--bg-alt);
+            border-radius: var(--radius);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.25rem;
             flex-shrink: 0;
         }
-
         .contact-item div strong {
             display: block;
             color: var(--primary);
             font-size: 0.9375rem;
             margin-bottom: 2px;
         }
-
         .contact-item div span {
             font-size: 0.875rem;
             color: var(--text-muted);
@@ -702,14 +899,10 @@
         .contact-form {
             background: var(--card-bg);
             padding: 40px;
-            border-radius: 20px;
+            border-radius: var(--radius-lg);
             border: 1px solid var(--border);
         }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
+        .form-group { margin-bottom: 20px; }
         .form-group label {
             display: block;
             font-size: 0.875rem;
@@ -717,25 +910,25 @@
             color: var(--primary);
             margin-bottom: 8px;
         }
-
         .form-group input,
         .form-group textarea {
             width: 100%;
             padding: 12px 16px;
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: var(--radius-sm);
             font-size: 1rem;
             font-family: inherit;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            background: var(--card-bg);
+            color: var(--text);
+            transition: border-color var(--transition), box-shadow var(--transition);
+            min-height: 48px;
         }
-
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(214,158,46,0.15);
+            box-shadow: 0 0 0 3px var(--accent-light);
         }
-
         .form-group textarea {
             min-height: 120px;
             resize: vertical;
@@ -746,81 +939,82 @@
             position: relative;
             width: 100%;
             height: 48px;
-            background: linear-gradient(135deg, #edf2f7, #e2e8f0);
-            border-radius: 10px;
+            background: linear-gradient(135deg, var(--bg-alt), var(--border));
+            border-radius: var(--radius-sm);
             margin-bottom: 20px;
             overflow: hidden;
             user-select: none;
+            touch-action: none;
         }
-
         .slider-captcha-track {
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             height: 100%;
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            border-radius: 10px;
+            border-radius: var(--radius-sm);
             width: 0;
-            transition: none;
         }
-
         .slider-captcha-track.success {
-            background: linear-gradient(135deg, #38a169, #48bb78);
+            background: linear-gradient(135deg, var(--success), #22c55e);
         }
-
         .slider-captcha-text {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             font-size: 0.875rem;
             color: var(--text-muted);
             pointer-events: none;
             white-space: nowrap;
         }
-
-        .slider-captcha-text.success {
-            color: white;
-        }
-
+        .slider-captcha-text.success { color: white; }
         .slider-captcha-handle {
             position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 44px;
-            height: 44px;
+            top: 2px; left: 2px;
+            width: 44px; height: 44px;
             background: white;
-            border-radius: 8px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: grab;
             box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            transition: box-shadow 0.2s;
+            transition: box-shadow var(--transition);
             font-size: 1.125rem;
             z-index: 2;
         }
-
         .slider-captcha-handle:hover {
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-
-        .slider-captcha-handle:active {
-            cursor: grabbing;
-        }
-
+        .slider-captcha-handle:active { cursor: grabbing; }
         .slider-captcha-handle.success {
-            background: #38a169;
+            background: var(--success);
             color: white;
             cursor: default;
         }
 
-        .slider-captcha.disabled {
-            opacity: 0.6;
-            pointer-events: none;
+        /* Call link button */
+        .call-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 22px;
+            background: var(--success);
+            color: white;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.9375rem;
+            text-decoration: none;
+            transition: all var(--transition);
+            box-shadow: 0 4px 12px rgba(22,163,74,0.35);
+            min-height: 44px;
+        }
+        .call-link:hover {
+            background: #15803d;
+            color: white;
+            transform: translateY(-1px);
         }
 
-        /* Footer */
+        /* ========== Footer ========== */
         footer {
             background: var(--bg-dark);
             color: rgba(255,255,255,0.6);
@@ -828,541 +1022,787 @@
             text-align: center;
             font-size: 0.875rem;
         }
+        footer a { color: rgba(255,255,255,0.8); }
+        footer a:hover { color: var(--accent); }
 
-        footer a {
-            color: rgba(255,255,255,0.8);
+        /* ========== Responsive ========== */
+        @media (max-width: 1024px) {
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .cred-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
-        footer a:hover {
-            color: var(--accent);
-        }
-
-        /* Responsive */
-        @media (max-width: 992px) {
+        @media (max-width: 768px) {
             .hero-grid {
                 grid-template-columns: 1fr;
                 gap: 40px;
             }
+            .hero h1 { font-size: 2.25rem; }
+            .diff-grid { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; }
 
-            .hero h1 {
-                font-size: 2.25rem;
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .cred-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .diff-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .timeline-wrap::before {
-                left: 16px;
-            }
-
+            .timeline-wrap::before { left: 16px; }
             .timeline-item,
             .timeline-item:nth-child(odd) {
                 flex-direction: column;
                 text-align: left;
                 padding-left: 48px;
             }
-
             .timeline-item:nth-child(odd) .timeline-content,
             .timeline-item:nth-child(even) .timeline-content {
-                padding-left: 0;
-                padding-right: 0;
+                padding: 0;
                 width: 100%;
             }
-
             .timeline-dot {
                 left: 16px;
                 transform: translateX(-50%);
             }
+
+            section { padding: 72px 0; }
         }
 
         @media (max-width: 640px) {
-            .hero h1 {
-                font-size: 1.875rem;
-            }
+            .hero { padding: 120px 0 60px; }
+            .hero h1 { font-size: 1.875rem; }
+            .hero-subtitle { font-size: 1.0625rem; }
+            .hero-stats { gap: 20px; }
+            .stat-number { font-size: 1.5rem; }
+            .section-header h2 { font-size: 1.75rem; }
+            .cta-section h2 { font-size: 1.75rem; }
+            .cta-section { padding: 72px 0; }
+            .services-grid { grid-template-columns: 1fr; }
+            .cred-grid { grid-template-columns: repeat(2, 1fr); }
+            .contact-form { padding: 24px; }
+            .diff-visual { padding: 32px; }
 
-            .hero-subtitle {
-                font-size: 1.0625rem;
-            }
-
-            .hero-stats {
-                gap: 20px;
-            }
-
-            .stat-number {
-                font-size: 1.5rem;
-            }
-
-            .section-header h2 {
-                font-size: 1.75rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .cta-section h2 {
-                font-size: 1.75rem;
-            }
+            .nav-links, .lang-toggle-desktop { display: none; }
+            .mobile-menu-btn { display: flex; align-items: center; justify-content: center; }
         }
 
         /* Smooth scroll */
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         /* Print */
         @media print {
-            nav, .hero-cta, .cta-section, .contact-form, footer {
-                display: none;
-            }
-
+            nav, .hero-cta, .cta-section, .contact-form, footer, .mobile-menu-btn,
+            .mobile-menu-overlay, .mobile-menu-panel { display: none; }
             .hero {
                 background: white;
                 color: black;
                 padding: 40px 0;
             }
-
-            .hero h1, .hero-subtitle {
-                color: black;
-            }
+            .hero h1, .hero-subtitle { color: black; }
+            section { padding: 32px 0; }
         }
     </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link" data-i18n="skip">跳转到主要内容</a>
 
-    <nav id="navbar">
+    <nav id="navbar" role="navigation" aria-label="主导航">
         <div class="container">
-            <div class="logo">柳秉含<span>.</span></div>
+            <div class="logo" aria-label="柳秉含">柳秉含<span>.</span></div>
             <ul class="nav-links">
-                <li><a href="#about">关于</a></li>
-                <li><a href="#services">服务</a></li>
-                <li><a href="#credentials">资质</a></li>
-                <li><a href="#experience">经历</a></li>
-                <li><a href="#contact">联系</a></li>
+                <li><a href="#about" data-i18n="nav_about">关于</a></li>
+                <li><a href="#services" data-i18n="nav_services">服务</a></li>
+                <li><a href="#credentials" data-i18n="nav_credentials">资质</a></li>
+                <li><a href="#experience" data-i18n="nav_experience">经历</a></li>
+                <li><a href="#contact" data-i18n="nav_contact">联系</a></li>
             </ul>
-            <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')">☰</button>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <button class="theme-toggle" onclick="cycleTheme()" aria-label="切换主题">
+                    <span class="icon-sun" aria-hidden="true">☀️</span>
+                    <span class="icon-moon" aria-hidden="true">🌙</span>
+                    <span class="icon-auto" aria-hidden="true">🖥️</span>
+                </button>
+                <button class="lang-toggle lang-toggle-desktop" onclick="toggleLang()" aria-label="切换语言" data-i18n="lang_switch">EN</button>
+            </div>
+            <button class="mobile-menu-btn" aria-label="打开菜单" aria-expanded="false" aria-controls="mobileMenu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
-    <section class="hero" id="about">
-        <div class="container">
-            <div class="hero-grid">
-                <div>
-                    <div class="hero-badge">
-                        <span class="dot"></span>
-                        国家认证 · 可接项目
-                    </div>
-                    <h1>
-                        <span class="accent">软件评测师</span><br>
-                        柳秉含
-                    </h1>
-                    <p class="hero-subtitle">
-                        7 年软件测试实战经验，专注政务项目验收测试与测试基础设施搭建。<br>
-                        AI 工具链加速交付，持证专家一人成军。
-                    </p>
-                    <div class="hero-stats">
-                        <div class="stat">
-                            <div class="stat-number">7</div>
-                            <div class="stat-label">年测试经验</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">3</div>
-                            <div class="stat-label">次基建搭建</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">1</div>
-                            <div class="stat-label">人全栈交付</div>
-                        </div>
-                    </div>
-                    <div class="hero-cta">
-                        <a href="#contact" class="btn btn-primary">预约咨询</a>
-                        <a href="#services" class="btn btn-outline">了解服务</a>
-                    </div>
-                </div>
-                <div class="hero-card">
-                    <div class="cert-showcase">
-                        <img src="certificate_compressed.jpg" alt="软件评测师资格证书 - 柳秉含" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div style="display:none; padding: 40px; text-align: center;">
-                            <div style="font-size: 4rem; margin-bottom: 16px;">🏆</div>
-                            <div style="font-size: 1.125rem; font-weight: 700; margin-bottom: 8px;">软件评测师 · 中级</div>
-                            <div style="font-size: 0.875rem; opacity: 0.8;">人社部 + 工信部 双章颁发</div>
-                        </div>
-                        <div class="cert-meta">
-                            <strong>国家职业资格证书</strong> · 2022年11月批准<br>
-                            中华人民共和国人力资源和社会保障部 · 工业和信息化部
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="mobile-menu-overlay" id="mobileOverlay" aria-hidden="true"></div>
+    <div class="mobile-menu-panel" id="mobileMenu" role="dialog" aria-label="导航菜单">
+        <a href="#about" data-i18n="nav_about">关于</a>
+        <a href="#services" data-i18n="nav_services">服务</a>
+        <a href="#credentials" data-i18n="nav_credentials">资质</a>
+        <a href="#experience" data-i18n="nav_experience">经历</a>
+        <a href="#contact" data-i18n="nav_contact">联系</a>
+        <div style="display:flex; align-items:center; gap:8px; margin-top:24px;">
+            <button class="theme-toggle" onclick="cycleTheme()" aria-label="切换主题">
+                <span class="icon-sun" aria-hidden="true">☀️</span>
+                <span class="icon-moon" aria-hidden="true">🌙</span>
+                <span class="icon-auto" aria-hidden="true">🖥️</span>
+            </button>
+            <button class="lang-toggle" onclick="toggleLang()" data-i18n="lang_switch" style="flex:1;">EN</button>
         </div>
-    </section>
+    </div>
 
-    <section class="services" id="services">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">核心服务</span>
-                <h2>我能为你做什么</h2>
-                <p>从应急验收报告到完整测试体系搭建，覆盖政务与中小企业项目的全周期测试需求</p>
-            </div>
-            <div class="services-grid">
-                <div class="service-card featured">
-                    <div class="service-icon">📋</div>
-                    <h3>测试报告与验收服务</h3>
-                    <p>项目即将验收却缺少专业测试报告？我来帮你快速补齐——功能测试、性能测试、安全测试、信息无障碍测试，持证签字，直接满足验收门槛。</p>
-                    <ul class="service-features">
-                        <li>政务项目验收测试报告</li>
-                        <li>功能/性能/安全测试执行</li>
-                        <li>信息无障碍合规检测（差异化壁垒）</li>
-                        <li>软件评测师持证签字背书</li>
-                        <li>AI 辅助加速，交付周期短</li>
-                    </ul>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">⚙️</div>
-                    <h3>测试基建一站式搭建</h3>
-                    <p>团队没有专职测试，上线靠人肉验证？我从零帮你搭建完整测试基础设施——测试管理、CI/CD、自动化框架，一次投入长期受益。</p>
-                    <ul class="service-features">
-                        <li>测试管理工具选型与搭建（禅道/Jira/Coding）</li>
-                        <li>CI/CD 流水线配置（Jenkins/GitHub Actions）</li>
-                        <li>UI/API 自动化测试框架落地</li>
-                        <li>四环境管理（开发/测试/预发布/生产）</li>
-                        <li>知识库与流程文档体系</li>
-                    </ul>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">♿</div>
-                    <h3>信息无障碍测试</h3>
-                    <p>政务网站和 APP 面临信息无障碍合规要求，但大多数团队无从下手。结合亚运会志愿者助残经历与无障碍专业知识，提供差异化检测服务。</p>
-                    <ul class="service-features">
-                        <li>政务网站/APP 无障碍合规检测</li>
-                        <li>屏幕阅读器兼容性测试</li>
-                        <li>键盘操作全流程验证</li>
-                        <li>无障碍整改建议与复测</li>
-                        <li>WCAG/国内标准双对标</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="credentials" id="credentials">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">核心资质</span>
-                <h2>为什么是「我」</h2>
-                <p>不是外包公司按人头卖时间，而是带着 7 年实战经验和国家认证的深度交付</p>
-            </div>
-            <div class="cred-grid">
-                <div class="cred-item">
-                    <div class="cred-icon">📜</div>
-                    <h4>持证</h4>
-                    <p>软件评测师<br>国家职业资格</p>
-                </div>
-                <div class="cred-item">
-                    <div class="cred-icon">🏗️</div>
-                    <h4>3 次</h4>
-                    <p>从零搭建<br>测试基础设施</p>
-                </div>
-                <div class="cred-item">
-                    <div class="cred-icon">♿</div>
-                    <h4>无障碍</h4>
-                    <p>亚运志愿者<br>助残专业背景</p>
-                </div>
-                <div class="cred-item">
-                    <div class="cred-icon">🤖</div>
-                    <h4>AI 加速</h4>
-                    <p>AI 工具链<br>提升交付效率</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="why">
-        <div class="container">
-            <div class="diff-grid">
-                <div>
-                    <span class="section-tag">差异化优势</span>
-                    <h2 style="font-size: 2rem; font-weight: 800; color: var(--primary); margin-bottom: 8px;">你找不到第二个人同时具备这些</h2>
-                    <p style="color: var(--text-light); margin-bottom: 40px;">一人公司不是「便宜」，而是「精准」——你花的每一分钱都花在刀刃上</p>
-                    <ul class="diff-list">
-                        <li>
-                            <div class="diff-num">1</div>
-                            <div class="diff-content">
-                                <h4>持证即合规</h4>
-                                <p>软件评测师国家职业资格证书，政务项目投标/验收的硬性门槛。不是「自称会测试」，是制度性信任。</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="diff-num">2</div>
-                            <div class="diff-content">
-                                <h4>无障碍差异化</h4>
-                                <p>亚运会志愿者 + 残友圈实践，懂信息无障碍合规要求。90% 的测试团队没有这个能力。</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="diff-num">3</div>
-                            <div class="diff-content">
-                                <h4>从 0 到 1 的落地力</h4>
-                                <p>自己就是「团队里唯一测试」过来的，从零搭过禅道→Jira→Coding、Jenkins、Robot Framework，懂中小企业真实处境。</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="diff-num">4</div>
-                            <div class="diff-content">
-                                <h4>全栈交付，无需协调</h4>
-                                <p>前端 + 后端 + 运维 + 测试，一人完成。没有外包团队的沟通成本，没有信息传递损耗。</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="diff-visual">
-                    <h3>服务过的项目类型</h3>
-                    <p>覆盖政务数字化、互联网产品、中小企业信息化等多类场景</p>
-                    <div class="diff-badges">
-                        <span class="diff-badge">政务服务系统</span>
-                        <span class="diff-badge">数字政务平台</span>
-                        <span class="diff-badge">新疆数字政务</span>
-                        <span class="diff-badge">审批流程系统</span>
-                        <span class="diff-badge">报销管理系统</span>
-                        <span class="diff-badge">微信小程序</span>
-                        <span class="diff-badge">电商平台</span>
-                        <span class="diff-badge">信息无障碍</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="timeline" id="experience">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">职业经历</span>
-                <h2>从「唯一测试」到「一人交付」</h2>
-                <p>7 年实战，3 家公司，从零搭建 3 次测试基础设施</p>
-            </div>
-            <div class="timeline-wrap">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <span class="timeline-year">2017 - 2020</span>
-                        <div class="timeline-title">第一家公司 · 团队唯一测试</div>
-                        <div class="timeline-desc">从零搭建测试体系：禅道 → Jira + Wiki 知识库 → 腾讯云 Coding 项目管理；本地 Jenkins CI/CD，4 套环境（开发/测试/预发布/生产）自动部署。</div>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <span class="timeline-year">2020 - 2021</span>
-                        <div class="timeline-title">休养与转型</div>
-                        <div class="timeline-desc">因身体原因长期休假后离职。期间持续学习，考取软件评测师国家职业资格证书（2022年11月）。</div>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <span class="timeline-year">2022 - 2024</span>
-                        <div class="timeline-title">第二家公司 · 政务项目测试</div>
-                        <div class="timeline-desc">政务服务项目功能测试与文档编写；Python + Robot Framework 搭建 UI 自动化框架，实现报销审批流程回归自动化，大幅减少人工审核时间。</div>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <span class="timeline-year">2025</span>
-                        <div class="timeline-title">新疆数字政务 · 全栈测试</div>
-                        <div class="timeline-desc">新疆数字政务项目功能测试、性能测试、安全测试与测试报告编写；同时独立开发 Claw 小程序（FastAPI + 微信小程序 + Docker 全栈部署），实践 AI 工具链。</div>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <span class="timeline-year">2026 至今</span>
-                        <div class="timeline-title">测试交付服务 · 独立交付</div>
-                        <div class="timeline-desc">基于 7 年经验 + 国家认证 + AI 工具链，为政务项目团队和中小企业提供 AI 加速的测试交付服务——从验收报告到基建搭建，一人全栈交付。</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="cta-section">
-        <div class="container">
-            <h2>项目要验收了，测试报告还没着落？</h2>
-            <p>与其临时抱佛脚拼凑一份经不起审查的报告，不如找持证专家一次到位。快速响应，AI 加速，持证签字。</p>
-            <div class="cta-buttons">
-                <a href="#contact" class="btn btn-primary">立即预约咨询</a>
-                <a href="#services" class="btn btn-outline">先了解服务详情</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">联系方式</span>
-                <h2>开始合作</h2>
-                <p>描述你的项目需求，我会在 24 小时内回复</p>
-            </div>
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <h3>直接联系我</h3>
-                    <p>杭州地区可面谈，异地项目支持远程交付。紧急需求请直接微信联系。</p>
-                    <div class="contact-item">
-                        <div class="contact-icon">📍</div>
-                        <div>
-                            <strong>所在地</strong>
-                            <span>浙江杭州</span>
+    <main id="main-content">
+        <section class="hero" id="about" aria-labelledby="hero-title">
+            <div class="container">
+                <div class="hero-grid">
+                    <div>
+                        <div class="hero-badge" aria-hidden="true">
+                            <span class="dot"></span>
+                            <span data-i18n="hero_badge">国家认证 · 可接项目</span>
                         </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">📱</div>
-                        <div>
-                            <strong>手机 / 微信</strong>
-                            <div style="margin-top: 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                                <a href="tel:18336972050" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 22px; background: #38a169; color: white; border-radius: 8px; font-weight: 600; font-size: 0.9375rem; text-decoration: none; transition: all 0.2s; box-shadow: 0 4px 12px rgba(56,161,105,0.3);">📞 立即拨打 18336972050</a>
-                                <span style="font-size: 0.8125rem; color: var(--text-muted);">同微信号，请备注「测试服务」</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">📧</div>
-                        <div>
-                            <strong>邮箱</strong>
-                            <span><a href="mailto:mars2728@qq.com" style="color: var(--primary-light); font-weight: 500;">mars2728@qq.com</a></span>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">⏰</div>
-                        <div>
-                            <strong>响应时间</strong>
-                            <span>工作日 24 小时内回复</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact-form">
-                    <form id="contactForm">
-                        <input type="hidden" name="_honey" style="display:none">
-                        <div class="form-group">
-                            <label>你的称呼</label>
-                            <input type="text" id="formName" name="称呼" placeholder="怎么称呼你？" required>
-                        </div>
-                        <div class="form-group">
-                            <label>联系方式</label>
-                            <input type="text" id="formContact" name="联系方式" placeholder="微信或手机号" required>
-                        </div>
-                        <div class="form-group">
-                            <label>项目需求</label>
-                            <textarea id="formMessage" name="项目需求" placeholder="简单描述项目类型、验收时间、当前测试状况..." rows="4"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>安全验证</label>
-                            <div class="slider-captcha" id="sliderCaptcha">
-                                <div class="slider-captcha-track" id="sliderTrack"></div>
-                                <span class="slider-captcha-text" id="sliderText">👉 拖动滑块完成验证</span>
-                                <div class="slider-captcha-handle" id="sliderHandle">≫</div>
-                            </div>
-                        </div>
-                        <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%; opacity: 0.5; cursor: not-allowed;" disabled>发送邮件</button>
-                        <div style="display: flex; align-items: center; gap: 12px; margin-top: 16px;">
-                            <div style="flex: 1; height: 1px; background: var(--border);"></div>
-                            <span style="font-size: 0.8125rem; color: var(--text-muted);">或</span>
-                            <div style="flex: 1; height: 1px; background: var(--border);"></div>
-                        </div>
-                        <button type="button" id="copyWechatBtn" class="btn" style="width: 100%; margin-top: 16px; background: var(--bg); color: var(--primary); border: 2px solid var(--border); font-weight: 600;">📋 复制微信号，直接联系</button>
-                        <p style="text-align: center; font-size: 0.8125rem; color: var(--text-muted); margin-top: 12px;">
-                            点击发送邮件将打开邮箱客户端，24 小时内回复
+                        <h1 id="hero-title">
+                            <span class="accent" data-i18n="hero_title_accent">软件评测师</span><br>
+                            <span data-i18n="hero_title_name">柳秉含</span>
+                        </h1>
+                        <p class="hero-subtitle" data-i18n="hero_subtitle">
+                            7 年软件测试实战经验，专注政务项目验收测试与测试基础设施搭建。<br>
+                            AI 工具链加速交付，持证专家一人成军。
                         </p>
-                    </form>
+                        <div class="hero-stats" role="list" aria-label="核心数据">
+                            <div class="stat" role="listitem">
+                                <div class="stat-number">7</div>
+                                <div class="stat-label" data-i18n="stat_years">年测试经验</div>
+                            </div>
+                            <div class="stat" role="listitem">
+                                <div class="stat-number">3</div>
+                                <div class="stat-label" data-i18n="stat_infra">次基建搭建</div>
+                            </div>
+                            <div class="stat" role="listitem">
+                                <div class="stat-number">1</div>
+                                <div class="stat-label" data-i18n="stat_solo">人全栈交付</div>
+                            </div>
+                        </div>
+                        <div class="hero-cta">
+                            <a href="#contact" class="btn btn-primary" data-i18n="cta_consult">预约咨询</a>
+                            <a href="#services" class="btn btn-outline" data-i18n="cta_learn">了解服务</a>
+                        </div>
+                    </div>
+                    <div class="hero-card">
+                        <div class="cert-showcase">
+                            <img src="certificate_compressed.jpg" data-i18n-alt="cert_img_alt" alt="软件评测师资格证书 - 柳秉含" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div style="display:none; padding: 40px; text-align: center;" aria-hidden="true">
+                                <div style="font-size: 4rem; margin-bottom: 16px;">🏆</div>
+                                <div style="font-size: 1.125rem; font-weight: 700; margin-bottom: 8px;" data-i18n="cert_fallback_title">软件评测师 · 中级</div>
+                                <div style="font-size: 0.875rem; opacity: 0.8;" data-i18n="cert_fallback_desc">人社部 + 工信部 双章颁发</div>
+                            </div>
+                            <div class="cert-meta">
+                                <strong data-i18n="cert_meta_title">国家职业资格证书</strong> · <span data-i18n="cert_meta_date">2022年11月批准</span><br>
+                                <span data-i18n="cert_meta_org">中华人民共和国人力资源和社会保障部 · 工业和信息化部</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer>
+        <section class="services" id="services" aria-labelledby="services-title">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag" data-i18n="tag_services">核心服务</span>
+                    <h2 id="services-title" data-i18n="services_title">我能为你做什么</h2>
+                    <p data-i18n="services_desc">从应急验收报告到完整测试体系搭建，覆盖政务与中小企业项目的全周期测试需求</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card featured" data-recommended="推荐" data-recommended-en="Featured">
+                        <div class="service-icon" aria-hidden="true">📋</div>
+                        <h3 data-i18n="svc1_title">测试报告与验收服务</h3>
+                        <p data-i18n="svc1_desc">项目即将验收却缺少专业测试报告？我来帮你快速补齐——功能测试、性能测试、安全测试、信息无障碍测试，持证签字，直接满足验收门槛。</p>
+                        <ul class="service-features">
+                            <li data-i18n="svc1_f1">政务项目验收测试报告</li>
+                            <li data-i18n="svc1_f2">功能/性能/安全测试执行</li>
+                            <li data-i18n="svc1_f3">信息无障碍合规检测（差异化壁垒）</li>
+                            <li data-i18n="svc1_f4">软件评测师持证签字背书</li>
+                            <li data-i18n="svc1_f5">AI 辅助加速，交付周期短</li>
+                        </ul>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon" aria-hidden="true">⚙️</div>
+                        <h3 data-i18n="svc2_title">测试基建一站式搭建</h3>
+                        <p data-i18n="svc2_desc">团队没有专职测试，上线靠人肉验证？我从零帮你搭建完整测试基础设施——测试管理、CI/CD、自动化框架，一次投入长期受益。</p>
+                        <ul class="service-features">
+                            <li data-i18n="svc2_f1">测试管理工具选型与搭建（禅道/Jira/Coding）</li>
+                            <li data-i18n="svc2_f2">CI/CD 流水线配置（Jenkins/GitHub Actions）</li>
+                            <li data-i18n="svc2_f3">UI/API 自动化测试框架落地</li>
+                            <li data-i18n="svc2_f4">四环境管理（开发/测试/预发布/生产）</li>
+                            <li data-i18n="svc2_f5">知识库与流程文档体系</li>
+                        </ul>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon" aria-hidden="true">♿</div>
+                        <h3 data-i18n="svc3_title">信息无障碍测试</h3>
+                        <p data-i18n="svc3_desc">政务网站和 APP 面临信息无障碍合规要求，但大多数团队无从下手。结合亚运会志愿者助残经历与无障碍专业知识，提供差异化检测服务。</p>
+                        <ul class="service-features">
+                            <li data-i18n="svc3_f1">政务网站/APP 无障碍合规检测</li>
+                            <li data-i18n="svc3_f2">屏幕阅读器兼容性测试</li>
+                            <li data-i18n="svc3_f3">键盘操作全流程验证</li>
+                            <li data-i18n="svc3_f4">无障碍整改建议与复测</li>
+                            <li data-i18n="svc3_f5">WCAG/国内标准双对标</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="credentials" id="credentials" aria-labelledby="cred-title">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag" data-i18n="tag_creds">核心资质</span>
+                    <h2 id="cred-title" data-i18n="cred_title">为什么是「我」</h2>
+                    <p data-i18n="cred_desc">不是外包公司按人头卖时间，而是带着 7 年实战经验和国家认证的深度交付</p>
+                </div>
+                <div class="cred-grid">
+                    <div class="cred-item">
+                        <div class="cred-icon" aria-hidden="true">📜</div>
+                        <h4 data-i18n="cred1_h">持证</h4>
+                        <p data-i18n="cred1_p">软件评测师<br>国家职业资格</p>
+                    </div>
+                    <div class="cred-item">
+                        <div class="cred-icon" aria-hidden="true">🏗️</div>
+                        <h4 data-i18n="cred2_h">3 次</h4>
+                        <p data-i18n="cred2_p">从零搭建<br>测试基础设施</p>
+                    </div>
+                    <div class="cred-item">
+                        <div class="cred-icon" aria-hidden="true">♿</div>
+                        <h4 data-i18n="cred3_h">无障碍</h4>
+                        <p data-i18n="cred3_p">亚运志愿者<br>助残专业背景</p>
+                    </div>
+                    <div class="cred-item">
+                        <div class="cred-icon" aria-hidden="true">🤖</div>
+                        <h4 data-i18n="cred4_h">AI 加速</h4>
+                        <p data-i18n="cred4_p">AI 工具链<br>提升交付效率</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="why" aria-labelledby="why-title">
+            <div class="container">
+                <div class="diff-grid">
+                    <div>
+                        <span class="section-tag" data-i18n="tag_diff">差异化优势</span>
+                        <h2 id="why-title" style="font-size: 2rem; font-weight: 800; color: var(--primary); margin-bottom: 8px;" data-i18n="diff_title">你找不到第二个人同时具备这些</h2>
+                        <p style="color: var(--text-light); margin-bottom: 40px;" data-i18n="diff_desc">一人公司不是「便宜」，而是「精准」——你花的每一分钱都花在刀刃上</p>
+                        <ul class="diff-list">
+                            <li>
+                                <div class="diff-num" aria-hidden="true">1</div>
+                                <div class="diff-content">
+                                    <h4 data-i18n="diff1_h">持证即合规</h4>
+                                    <p data-i18n="diff1_p">软件评测师国家职业资格证书，政务项目投标/验收的硬性门槛。不是「自称会测试」，是制度性信任。</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="diff-num" aria-hidden="true">2</div>
+                                <div class="diff-content">
+                                    <h4 data-i18n="diff2_h">无障碍差异化</h4>
+                                    <p data-i18n="diff2_p">亚运会志愿者 + 残友圈实践，懂信息无障碍合规要求。90% 的测试团队没有这个能力。</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="diff-num" aria-hidden="true">3</div>
+                                <div class="diff-content">
+                                    <h4 data-i18n="diff3_h">从 0 到 1 的落地力</h4>
+                                    <p data-i18n="diff3_p">自己就是「团队里唯一测试」过来的，从零搭过禅道→Jira→Coding、Jenkins、Robot Framework，懂中小企业真实处境。</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="diff-num" aria-hidden="true">4</div>
+                                <div class="diff-content">
+                                    <h4 data-i18n="diff4_h">全栈交付，无需协调</h4>
+                                    <p data-i18n="diff4_p">前端 + 后端 + 运维 + 测试，一人完成。没有外包团队的沟通成本，没有信息传递损耗。</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="diff-visual">
+                        <h3 data-i18n="diff_visual_title">服务过的项目类型</h3>
+                        <p data-i18n="diff_visual_desc">覆盖政务数字化、互联网产品、中小企业信息化等多类场景</p>
+                        <div class="diff-badges" role="list">
+                            <span class="diff-badge" role="listitem" data-i18n="badge1">政务服务系统</span>
+                            <span class="diff-badge" role="listitem" data-i18n="badge2">数字政务平台</span>
+                            <span class="diff-badge" role="listitem" data-i18n="badge3">新疆数字政务</span>
+                            <span class="diff-badge" role="listitem" data-i18n="badge4">审批流程系统</span>
+                            <span class="diff-badge" role="listitem" data-i18n="badge5">报销管理系统</span>
+                            <span class="diff-badge" role="listitem" data-i18n="badge6">微信小程序</span>
+                            <span class="diff-badge" role="listitem" data-i18n="badge7">电商平台</span>
+                            <span class="diff-badge" role="listitem" data-i18n="badge8">信息无障碍</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="timeline" id="experience" aria-labelledby="exp-title">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag" data-i18n="tag_exp">职业经历</span>
+                    <h2 id="exp-title" data-i18n="exp_title">从「唯一测试」到「一人交付」</h2>
+                    <p data-i18n="exp_desc">7 年实战，3 家公司，从零搭建 3 次测试基础设施</p>
+                </div>
+                <div class="timeline-wrap" role="list" aria-label="职业经历时间线">
+                    <div class="timeline-item" role="listitem">
+                        <div class="timeline-dot" aria-hidden="true"></div>
+                        <div class="timeline-content">
+                            <span class="timeline-year">2017 - 2020</span>
+                            <div class="timeline-title" data-i18n="tl1_title">第一家公司 · 团队唯一测试</div>
+                            <div class="timeline-desc" data-i18n="tl1_desc">从零搭建测试体系：禅道 → Jira + Wiki 知识库 → 腾讯云 Coding 项目管理；本地 Jenkins CI/CD，4 套环境（开发/测试/预发布/生产）自动部署。</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item" role="listitem">
+                        <div class="timeline-dot" aria-hidden="true"></div>
+                        <div class="timeline-content">
+                            <span class="timeline-year">2020 - 2021</span>
+                            <div class="timeline-title" data-i18n="tl2_title">休养与转型</div>
+                            <div class="timeline-desc" data-i18n="tl2_desc">因身体原因长期休假后离职。期间持续学习，考取软件评测师国家职业资格证书（2022年11月）。</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item" role="listitem">
+                        <div class="timeline-dot" aria-hidden="true"></div>
+                        <div class="timeline-content">
+                            <span class="timeline-year">2022 - 2024</span>
+                            <div class="timeline-title" data-i18n="tl3_title">第二家公司 · 政务项目测试</div>
+                            <div class="timeline-desc" data-i18n="tl3_desc">政务服务项目功能测试与文档编写；Python + Robot Framework 搭建 UI 自动化框架，实现报销审批流程回归自动化，大幅减少人工审核时间。</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item" role="listitem">
+                        <div class="timeline-dot" aria-hidden="true"></div>
+                        <div class="timeline-content">
+                            <span class="timeline-year">2025</span>
+                            <div class="timeline-title" data-i18n="tl4_title">新疆数字政务 · 全栈测试</div>
+                            <div class="timeline-desc" data-i18n="tl4_desc">新疆数字政务项目功能测试、性能测试、安全测试与测试报告编写；同时独立开发 Claw 小程序（FastAPI + 微信小程序 + Docker 全栈部署），实践 AI 工具链。</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item" role="listitem">
+                        <div class="timeline-dot" aria-hidden="true"></div>
+                        <div class="timeline-content">
+                            <span class="timeline-year" data-i18n="tl5_year">2026 至今</span>
+                            <div class="timeline-title" data-i18n="tl5_title">测试交付服务 · 独立交付</div>
+                            <div class="timeline-desc" data-i18n="tl5_desc">基于 7 年经验 + 国家认证 + AI 工具链，为政务项目团队和中小企业提供 AI 加速的测试交付服务——从验收报告到基建搭建，一人全栈交付。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section" aria-labelledby="cta-title">
+            <div class="container">
+                <h2 id="cta-title" data-i18n="cta_title">项目要验收了，测试报告还没着落？</h2>
+                <p data-i18n="cta_desc">与其临时抱佛脚拼凑一份经不起审查的报告，不如找持证专家一次到位。快速响应，AI 加速，持证签字。</p>
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary" data-i18n="cta_now">立即预约咨询</a>
+                    <a href="#services" class="btn btn-outline" data-i18n="cta_detail">先了解服务详情</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" aria-labelledby="contact-title">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag" data-i18n="tag_contact">联系方式</span>
+                    <h2 id="contact-title" data-i18n="contact_title">开始合作</h2>
+                    <p data-i18n="contact_desc">描述你的项目需求，我会在 24 小时内回复</p>
+                </div>
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h3 data-i18n="contact_direct">直接联系我</h3>
+                        <p data-i18n="contact_note">杭州地区可面谈，异地项目支持远程交付。紧急需求请直接微信联系。</p>
+                        <div class="contact-item">
+                            <div class="contact-icon" aria-hidden="true">📍</div>
+                            <div>
+                                <strong data-i18n="contact_loc_label">所在地</strong>
+                                <span data-i18n="contact_loc_value">浙江杭州</span>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon" aria-hidden="true">📱</div>
+                            <div>
+                                <strong data-i18n="contact_phone_label">手机 / 微信</strong>
+                                <div style="margin-top: 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                                    <a href="tel:18336972050" class="call-link">📞 <span data-i18n="contact_call">立即拨打</span> 18336972050</a>
+                                    <span style="font-size: 0.8125rem; color: var(--text-muted);" data-i18n="contact_wechat_note">同微信号，请备注「测试服务」</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon" aria-hidden="true">📧</div>
+                            <div>
+                                <strong data-i18n="contact_email_label">邮箱</strong>
+                                <span><a href="mailto:mars2728@qq.com" style="color: var(--primary-light); font-weight: 500;">mars2728@qq.com</a></span>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon" aria-hidden="true">⏰</div>
+                            <div>
+                                <strong data-i18n="contact_response_label">响应时间</strong>
+                                <span data-i18n="contact_response_value">工作日 24 小时内回复</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-form">
+                        <form id="contactForm" novalidate>
+                            <input type="hidden" name="_honey" tabindex="-1" aria-hidden="true" style="display:none">
+                            <div class="form-group">
+                                <label for="formName" data-i18n="form_name">你的称呼</label>
+                                <input type="text" id="formName" name="称呼" placeholder="怎么称呼你？" required data-i18n-placeholder="form_name_ph">
+                            </div>
+                            <div class="form-group">
+                                <label for="formContact" data-i18n="form_contact">联系方式</label>
+                                <input type="text" id="formContact" name="联系方式" placeholder="微信或手机号" required data-i18n-placeholder="form_contact_ph">
+                            </div>
+                            <div class="form-group">
+                                <label for="formMessage" data-i18n="form_message">项目需求</label>
+                                <textarea id="formMessage" name="项目需求" placeholder="简单描述项目类型、验收时间、当前测试状况..." rows="4" data-i18n-placeholder="form_message_ph"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label id="captchaLabel" data-i18n="form_captcha">安全验证</label>
+                                <div class="slider-captcha" id="sliderCaptcha" role="slider" aria-labelledby="captchaLabel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="未验证" tabindex="0">
+                                    <div class="slider-captcha-track" id="sliderTrack"></div>
+                                    <span class="slider-captcha-text" id="sliderText" data-i18n="slider_hint">👉 拖动滑块完成验证</span>
+                                    <div class="slider-captcha-handle" id="sliderHandle" aria-hidden="true">≫</div>
+                                </div>
+                            </div>
+                            <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%; opacity: 0.5; cursor: not-allowed;" disabled data-i18n="form_submit">发送邮件</button>
+                            <div style="display: flex; align-items: center; gap: 12px; margin-top: 16px;">
+                                <div style="flex: 1; height: 1px; background: var(--border);"></div>
+                                <span style="font-size: 0.8125rem; color: var(--text-muted);" data-i18n="form_or">或</span>
+                                <div style="flex: 1; height: 1px; background: var(--border);"></div>
+                            </div>
+                            <button type="button" id="copyWechatBtn" class="btn" style="width: 100%; margin-top: 16px; background: var(--bg-alt); color: var(--primary); border: 2px solid var(--border); font-weight: 600;" data-i18n="form_copy_wechat">📋 复制微信号，直接联系</button>
+                            <p style="text-align: center; font-size: 0.8125rem; color: var(--text-muted); margin-top: 12px;" data-i18n="form_hint">点击发送邮件将打开邮箱客户端，24 小时内回复</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer role="contentinfo">
         <div class="container">
-            <p>© 2026 柳秉含 · 软件评测师 · 测试交付专家</p>
-            <p style="margin-top: 8px; font-size: 0.8125rem; opacity: 0.7;">
+            <p>© 2026 柳秉含 · <span data-i18n="footer_role">软件评测师 · 测试交付专家</span></p>
+            <p style="margin-top: 8px; font-size: 0.8125rem; opacity: 0.7;" data-i18n="footer_cert">
                 计算机技术与软件专业技术资格（中级）· 软件评测师 · 人社部 + 工信部认证
             </p>
         </div>
     </footer>
 
     <script>
-        // Navbar scroll effect
+        // ==================== Theme Toggle ====================
+        // Modes: 'auto' (follow system), 'light', 'dark'
+        const THEME_KEY = 'theme';
+        const themeOrder = ['auto', 'light', 'dark'];
+        const themeIcons = { auto: '🖥️', light: '☀️', dark: '🌙' };
+
+        function getStoredTheme() {
+            return localStorage.getItem(THEME_KEY) || 'auto';
+        }
+
+        function applyTheme(mode) {
+            const root = document.documentElement;
+            if (mode === 'auto') {
+                root.removeAttribute('data-theme');
+            } else {
+                root.setAttribute('data-theme', mode);
+            }
+            // Update theme-color meta for mobile browser chrome
+            const meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) {
+                const isDark = mode === 'dark' || (mode === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                meta.content = isDark ? '#0c1222' : '#1a365d';
+            }
+        }
+
+        function cycleTheme() {
+            const current = getStoredTheme();
+            const next = themeOrder[(themeOrder.indexOf(current) + 1) % themeOrder.length];
+            localStorage.setItem(THEME_KEY, next);
+            applyTheme(next);
+        }
+
+        // Apply stored theme immediately
+        applyTheme(getStoredTheme());
+
+        // Listen for system theme changes when in auto mode
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            if (getStoredTheme() === 'auto') applyTheme('auto');
+        });
+
+        // ==================== i18n ====================
+        const translations = {
+            zh: {
+                skip: "跳转到主要内容",
+                nav_about: "关于", nav_services: "服务", nav_credentials: "资质",
+                nav_experience: "经历", nav_contact: "联系", lang_switch: "EN",
+                hero_badge: "国家认证 · 可接项目",
+                hero_title_accent: "软件评测师", hero_title_name: "柳秉含",
+                hero_subtitle: "7 年软件测试实战经验，专注政务项目验收测试与测试基础设施搭建。<br>AI 工具链加速交付，持证专家一人成军。",
+                stat_years: "年测试经验", stat_infra: "次基建搭建", stat_solo: "人全栈交付",
+                cta_consult: "预约咨询", cta_learn: "了解服务",
+                cert_img_alt: "软件评测师资格证书 - 柳秉含",
+                cert_fallback_title: "软件评测师 · 中级", cert_fallback_desc: "人社部 + 工信部 双章颁发",
+                cert_meta_title: "国家职业资格证书", cert_meta_date: "2022年11月批准",
+                cert_meta_org: "中华人民共和国人力资源和社会保障部 · 工业和信息化部",
+                tag_services: "核心服务", services_title: "我能为你做什么",
+                services_desc: "从应急验收报告到完整测试体系搭建，覆盖政务与中小企业项目的全周期测试需求",
+                svc1_title: "测试报告与验收服务",
+                svc1_desc: "项目即将验收却缺少专业测试报告？我来帮你快速补齐——功能测试、性能测试、安全测试、信息无障碍测试，持证签字，直接满足验收门槛。",
+                svc1_f1: "政务项目验收测试报告", svc1_f2: "功能/性能/安全测试执行",
+                svc1_f3: "信息无障碍合规检测（差异化壁垒）", svc1_f4: "软件评测师持证签字背书",
+                svc1_f5: "AI 辅助加速，交付周期短",
+                svc2_title: "测试基建一站式搭建",
+                svc2_desc: "团队没有专职测试，上线靠人肉验证？我从零帮你搭建完整测试基础设施——测试管理、CI/CD、自动化框架，一次投入长期受益。",
+                svc2_f1: "测试管理工具选型与搭建（禅道/Jira/Coding）", svc2_f2: "CI/CD 流水线配置（Jenkins/GitHub Actions）",
+                svc2_f3: "UI/API 自动化测试框架落地", svc2_f4: "四环境管理（开发/测试/预发布/生产）",
+                svc2_f5: "知识库与流程文档体系",
+                svc3_title: "信息无障碍测试",
+                svc3_desc: "政务网站和 APP 面临信息无障碍合规要求，但大多数团队无从下手。结合亚运会志愿者助残经历与无障碍专业知识，提供差异化检测服务。",
+                svc3_f1: "政务网站/APP 无障碍合规检测", svc3_f2: "屏幕阅读器兼容性测试",
+                svc3_f3: "键盘操作全流程验证", svc3_f4: "无障碍整改建议与复测",
+                svc3_f5: "WCAG/国内标准双对标",
+                tag_creds: "核心资质", cred_title: "为什么是「我」",
+                cred_desc: "不是外包公司按人头卖时间，而是带着 7 年实战经验和国家认证的深度交付",
+                cred1_h: "持证", cred1_p: "软件评测师<br>国家职业资格",
+                cred2_h: "3 次", cred2_p: "从零搭建<br>测试基础设施",
+                cred3_h: "无障碍", cred3_p: "亚运志愿者<br>助残专业背景",
+                cred4_h: "AI 加速", cred4_p: "AI 工具链<br>提升交付效率",
+                tag_diff: "差异化优势",
+                diff_title: "你找不到第二个人同时具备这些",
+                diff_desc: "一人公司不是「便宜」，而是「精准」——你花的每一分钱都花在刀刃上",
+                diff1_h: "持证即合规", diff1_p: "软件评测师国家职业资格证书，政务项目投标/验收的硬性门槛。不是「自称会测试」，是制度性信任。",
+                diff2_h: "无障碍差异化", diff2_p: "亚运会志愿者 + 残友圈实践，懂信息无障碍合规要求。90% 的测试团队没有这个能力。",
+                diff3_h: "从 0 到 1 的落地力", diff3_p: "自己就是「团队里唯一测试」过来的，从零搭过禅道→Jira→Coding、Jenkins、Robot Framework，懂中小企业真实处境。",
+                diff4_h: "全栈交付，无需协调", diff4_p: "前端 + 后端 + 运维 + 测试，一人完成。没有外包团队的沟通成本，没有信息传递损耗。",
+                diff_visual_title: "服务过的项目类型",
+                diff_visual_desc: "覆盖政务数字化、互联网产品、中小企业信息化等多类场景",
+                badge1: "政务服务系统", badge2: "数字政务平台", badge3: "新疆数字政务",
+                badge4: "审批流程系统", badge5: "报销管理系统", badge6: "微信小程序",
+                badge7: "电商平台", badge8: "信息无障碍",
+                tag_exp: "职业经历", exp_title: "从「唯一测试」到「一人交付」",
+                exp_desc: "7 年实战，3 家公司，从零搭建 3 次测试基础设施",
+                tl1_title: "第一家公司 · 团队唯一测试",
+                tl1_desc: "从零搭建测试体系：禅道 → Jira + Wiki 知识库 → 腾讯云 Coding 项目管理；本地 Jenkins CI/CD，4 套环境（开发/测试/预发布/生产）自动部署。",
+                tl2_title: "休养与转型",
+                tl2_desc: "因身体原因长期休假后离职。期间持续学习，考取软件评测师国家职业资格证书（2022年11月）。",
+                tl3_title: "第二家公司 · 政务项目测试",
+                tl3_desc: "政务服务项目功能测试与文档编写；Python + Robot Framework 搭建 UI 自动化框架，实现报销审批流程回归自动化，大幅减少人工审核时间。",
+                tl4_title: "新疆数字政务 · 全栈测试",
+                tl4_desc: "新疆数字政务项目功能测试、性能测试、安全测试与测试报告编写；同时独立开发 Claw 小程序（FastAPI + 微信小程序 + Docker 全栈部署），实践 AI 工具链。",
+                tl5_year: "2026 至今", tl5_title: "测试交付服务 · 独立交付",
+                tl5_desc: "基于 7 年经验 + 国家认证 + AI 工具链，为政务项目团队和中小企业提供 AI 加速的测试交付服务——从验收报告到基建搭建，一人全栈交付。",
+                cta_title: "项目要验收了，测试报告还没着落？",
+                cta_desc: "与其临时抱佛脚拼凑一份经不起审查的报告，不如找持证专家一次到位。快速响应，AI 加速，持证签字。",
+                cta_now: "立即预约咨询", cta_detail: "先了解服务详情",
+                tag_contact: "联系方式", contact_title: "开始合作",
+                contact_desc: "描述你的项目需求，我会在 24 小时内回复",
+                contact_direct: "直接联系我",
+                contact_note: "杭州地区可面谈，异地项目支持远程交付。紧急需求请直接微信联系。",
+                contact_loc_label: "所在地", contact_loc_value: "浙江杭州",
+                contact_phone_label: "手机 / 微信", contact_call: "立即拨打",
+                contact_wechat_note: "同微信号，请备注「测试服务」",
+                contact_email_label: "邮箱",
+                contact_response_label: "响应时间", contact_response_value: "工作日 24 小时内回复",
+                form_name: "你的称呼", form_name_ph: "怎么称呼你？",
+                form_contact: "联系方式", form_contact_ph: "微信或手机号",
+                form_message: "项目需求", form_message_ph: "简单描述项目类型、验收时间、当前测试状况...",
+                form_captcha: "安全验证", slider_hint: "👉 拖动滑块完成验证",
+                slider_success: "✓ 验证通过",
+                form_submit: "发送邮件", form_or: "或",
+                form_copy_wechat: "📋 复制微信号，直接联系",
+                form_hint: "点击发送邮件将打开邮箱客户端，24 小时内回复",
+                footer_role: "软件评测师 · 测试交付专家",
+                footer_cert: "计算机技术与软件专业技术资格（中级）· 软件评测师 · 人社部 + 工信部认证"
+            },
+            en: {
+                skip: "Skip to main content",
+                nav_about: "About", nav_services: "Services", nav_credentials: "Credentials",
+                nav_experience: "Experience", nav_contact: "Contact", lang_switch: "中文",
+                hero_badge: "Certified · Available",
+                hero_title_accent: "Software Evaluator", hero_title_name: "Binghan Liu",
+                hero_subtitle: "7 years of software testing experience, specializing in government project acceptance testing and QA infrastructure.<br>AI-accelerated delivery, certified expert working solo.",
+                stat_years: "Years Experience", stat_infra: "Infra Built", stat_solo: "Solo Delivery",
+                cta_consult: "Book Consultation", cta_learn: "View Services",
+                cert_img_alt: "Software Evaluator Certificate - Binghan Liu",
+                cert_fallback_title: "Software Evaluator · Intermediate",
+                cert_fallback_desc: "Issued by MOHRSS & MIIT",
+                cert_meta_title: "National Vocational Certificate",
+                cert_meta_date: "Approved Nov 2022",
+                cert_meta_org: "Ministry of Human Resources & Social Security · Ministry of Industry and Information Technology",
+                tag_services: "CORE SERVICES", services_title: "What I Can Do For You",
+                services_desc: "From emergency acceptance reports to complete QA infrastructure — covering the full testing lifecycle for government and SME projects",
+                svc1_title: "Testing Reports & Acceptance",
+                svc1_desc: "Need a professional test report for project acceptance? I deliver fast — functional, performance, security, and accessibility testing with certified sign-off.",
+                svc1_f1: "Government project acceptance reports",
+                svc1_f2: "Functional/Performance/Security testing",
+                svc1_f3: "Accessibility compliance testing (unique edge)",
+                svc1_f4: "Certified software evaluator sign-off",
+                svc1_f5: "AI-accelerated, short turnaround",
+                svc2_title: "QA Infrastructure Setup",
+                svc2_desc: "No dedicated QA team? I build your complete testing infrastructure from scratch — test management, CI/CD, automation frameworks. Invest once, benefit long-term.",
+                svc2_f1: "Test management setup (Zentao/Jira/Coding)",
+                svc2_f2: "CI/CD pipeline config (Jenkins/GitHub Actions)",
+                svc2_f3: "UI/API automation framework deployment",
+                svc2_f4: "4-environment management (Dev/Test/Staging/Prod)",
+                svc2_f5: "Knowledge base & process documentation",
+                svc3_title: "Accessibility Testing",
+                svc3_desc: "Government websites face accessibility compliance requirements, but most teams don't know where to start. Combining Asian Games volunteer experience with accessibility expertise for differentiated testing.",
+                svc3_f1: "Government website/app accessibility audits",
+                svc3_f2: "Screen reader compatibility testing",
+                svc3_f3: "Full keyboard navigation verification",
+                svc3_f4: "Accessibility remediation advice & retesting",
+                svc3_f5: "WCAG & Chinese standards dual compliance",
+                tag_creds: "CREDENTIALS", cred_title: "Why Me",
+                cred_desc: "Not an outsourcing agency selling hours — but deep delivery with 7 years of hands-on experience and national certification",
+                cred1_h: "Certified", cred1_p: "Software Evaluator<br>National Vocational Cert",
+                cred2_h: "3 Times", cred2_p: "Built QA infra<br>from zero",
+                cred3_h: "Accessibility", cred3_p: "Asian Games volunteer<br>Disability support background",
+                cred4_h: "AI-Powered", cred4_p: "AI toolchain<br>Boosting efficiency",
+                tag_diff: "UNIQUE ADVANTAGES",
+                diff_title: "You Won't Find Anyone Else With All These",
+                diff_desc: "Solo doesn't mean 'cheap' — it means 'precise'. Every dollar goes directly to results.",
+                diff1_h: "Certified = Compliant", diff1_p: "National software evaluator certificate — the hard requirement for government project bidding/acceptance. Not 'claims to test', but institutional trust.",
+                diff2_h: "Accessibility Edge", diff2_p: "Asian Games volunteer + disability community practice. Understands accessibility compliance. 90% of testing teams lack this capability.",
+                diff3_h: "Zero-to-One Execution", diff3_p: "Been the 'only tester on the team'. Built Zentao→Jira→Coding, Jenkins, Robot Framework from scratch. Understands real SME situations.",
+                diff4_h: "Full-Stack, No Coordination", diff4_p: "Frontend + backend + ops + testing — done by one person. No outsourcing communication overhead, no information loss.",
+                diff_visual_title: "Project Types Served",
+                diff_visual_desc: "Covering government digitization, internet products, SME informatization and more",
+                badge1: "Gov Service Systems", badge2: "Digital Gov Platforms", badge3: "Xinjiang Digital Gov",
+                badge4: "Approval Workflows", badge5: "Expense Management", badge6: "WeChat Mini Programs",
+                badge7: "E-commerce", badge8: "Accessibility",
+                tag_exp: "EXPERIENCE", exp_title: "From 'Only Tester' to 'Solo Delivery'",
+                exp_desc: "7 years, 3 companies, built QA infrastructure 3 times from scratch",
+                tl1_title: "Company 1 · Only QA on the Team",
+                tl1_desc: "Built testing system from scratch: Zentao → Jira + Wiki → Tencent Cloud Coding; Jenkins CI/CD with 4 environments (Dev/Test/Staging/Prod) auto-deployment.",
+                tl2_title: "Recovery & Transition",
+                tl2_desc: "Took extended leave for health reasons. Continued self-study, obtained National Software Evaluator certificate (Nov 2022).",
+                tl3_title: "Company 2 · Government Project Testing",
+                tl3_desc: "Government service project functional testing & documentation; Built UI automation framework with Python + Robot Framework, automating expense approval regression tests.",
+                tl4_title: "Xinjiang Digital Gov · Full-Stack Testing",
+                tl4_desc: "Functional, performance, security testing & report writing for Xinjiang digital government; Independently developed Claw mini program (FastAPI + WeChat Mini Program + Docker), practicing AI toolchain.",
+                tl5_year: "2026 - Present", tl5_title: "Testing Delivery Service · Solo",
+                tl5_desc: "Leveraging 7 years of experience + national certification + AI toolchain to deliver AI-accelerated testing services for government teams and SMEs — from acceptance reports to infrastructure setup, full-stack solo delivery.",
+                cta_title: "Project deadline approaching, no test report yet?",
+                cta_desc: "Rather than scrambling together a report that won't withstand review, get a certified expert to do it right. Fast response, AI-accelerated, certified sign-off.",
+                cta_now: "Book Consultation Now", cta_detail: "View Service Details First",
+                tag_contact: "CONTACT", contact_title: "Start Working Together",
+                contact_desc: "Describe your project needs, I'll respond within 24 hours",
+                contact_direct: "Contact Me Directly",
+                contact_note: "In-person in Hangzhou, remote delivery for other locations. For urgent needs, contact via WeChat.",
+                contact_loc_label: "Location", contact_loc_value: "Hangzhou, Zhejiang",
+                contact_phone_label: "Phone / WeChat", contact_call: "Call Now",
+                contact_wechat_note: "Same as WeChat ID, note: 'Testing Service'",
+                contact_email_label: "Email",
+                contact_response_label: "Response Time", contact_response_value: "Within 24 hours on business days",
+                form_name: "Your Name", form_name_ph: "How should I address you?",
+                form_contact: "Contact Info", form_contact_ph: "WeChat or phone number",
+                form_message: "Project Needs", form_message_ph: "Briefly describe project type, acceptance timeline, current testing status...",
+                form_captcha: "Verification", slider_hint: "👉 Drag to verify",
+                slider_success: "✓ Verified",
+                form_submit: "Send Email", form_or: "or",
+                form_copy_wechat: "📋 Copy WeChat ID",
+                form_hint: "Click send to open email client, reply within 24 hours",
+                footer_role: "Software Evaluator · Testing Delivery Expert",
+                footer_cert: "Computer Technology & Software Professional Qualification (Intermediate) · Software Evaluator · MOHRSS + MIIT Certified"
+            }
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'zh';
+
+        function applyLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+
+            const t = translations[lang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        // skip, handled by placeholder
+                    } else {
+                        el.innerHTML = t[key];
+                    }
+                }
+            });
+            // Placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (t[key]) el.placeholder = t[key];
+            });
+            // Alt text
+            document.querySelectorAll('[data-i18n-alt]').forEach(el => {
+                const key = el.getAttribute('data-i18n-alt');
+                if (t[key]) el.alt = t[key];
+            });
+            // Recommended badge
+            document.querySelectorAll('[data-recommended]').forEach(el => {
+                const enVal = el.getAttribute('data-recommended-en');
+                const zhVal = el.getAttribute('data-recommended');
+                el.setAttribute('data-recommended', lang === 'en' ? enVal : zhVal);
+            });
+            // Update lang toggle buttons
+            document.querySelectorAll('.lang-toggle').forEach(btn => {
+                btn.textContent = t.lang_switch;
+            });
+        }
+
+        function toggleLang() {
+            applyLang(currentLang === 'zh' ? 'en' : 'zh');
+            closeMobileMenu();
+        }
+
+        // Apply saved language on load
+        applyLang(currentLang);
+
+        // ==================== Navbar ====================
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        }, { passive: true });
+
+        // ==================== Mobile Menu ====================
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const mobilePanel = document.getElementById('mobileMenu');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+
+        function openMobileMenu() {
+            mobileBtn.classList.add('active');
+            mobileBtn.setAttribute('aria-expanded', 'true');
+            mobilePanel.classList.add('active');
+            mobileOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            mobileBtn.classList.remove('active');
+            mobileBtn.setAttribute('aria-expanded', 'false');
+            mobilePanel.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        mobileBtn.addEventListener('click', () => {
+            if (mobilePanel.classList.contains('active')) {
+                closeMobileMenu();
             } else {
-                navbar.classList.remove('scrolled');
+                openMobileMenu();
             }
         });
 
-        // Mobile menu
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-            const links = document.querySelector('.nav-links');
-            if (links.style.display === 'flex') {
-                links.style.display = '';
-                links.style.removeProperty('position');
-                links.style.removeProperty('top');
-                links.style.removeProperty('left');
-                links.style.removeProperty('right');
-                links.style.removeProperty('background');
-                links.style.removeProperty('padding');
-                links.style.removeProperty('flex-direction');
-                links.style.removeProperty('gap');
-                links.style.removeProperty('box-shadow');
-            } else {
-                links.style.display = 'flex';
-                links.style.position = 'absolute';
-                links.style.top = '64px';
-                links.style.left = '0';
-                links.style.right = '0';
-                links.style.background = 'white';
-                links.style.padding = '20px';
-                links.style.flexDirection = 'column';
-                links.style.gap = '16px';
-                links.style.boxShadow = 'var(--shadow)';
-            }
+        mobileOverlay.addEventListener('click', closeMobileMenu);
+
+        // Close mobile menu on link click
+        mobilePanel.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
         });
 
-        // Smooth scroll for anchor links
+        // ==================== Smooth Scroll ====================
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                    // Close mobile menu
-                    const links = document.querySelector('.nav-links');
-                    if (window.innerWidth <= 640) {
-                        links.style.display = '';
-                    }
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
         });
 
-        // Slider Captcha
+        // ==================== Slider Captcha ====================
         (function() {
             const handle = document.getElementById('sliderHandle');
             const track = document.getElementById('sliderTrack');
@@ -1373,9 +1813,28 @@
             let isDragging = false;
             let startX = 0;
             let verified = false;
+            const t = () => translations[currentLang];
 
             function getClientX(e) {
                 return e.touches ? e.touches[0].clientX : e.clientX;
+            }
+
+            function getMaxLeft() {
+                return container.offsetWidth - handle.offsetWidth - 4;
+            }
+
+            function updatePosition(newLeft) {
+                const maxLeft = getMaxLeft();
+                newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+                handle.style.left = (newLeft + 2) + 'px';
+                track.style.width = (newLeft + handle.offsetWidth / 2) + 'px';
+
+                const pct = Math.round((newLeft / maxLeft) * 100);
+                container.setAttribute('aria-valuenow', pct);
+
+                if (newLeft >= maxLeft - 5) {
+                    verifySuccess();
+                }
             }
 
             function startDrag(e) {
@@ -1390,46 +1849,36 @@
             function onDrag(e) {
                 if (!isDragging || verified) return;
                 e.preventDefault();
-                const containerWidth = container.offsetWidth;
-                const maxLeft = containerWidth - handle.offsetWidth - 4;
-                let newLeft = getClientX(e) - startX;
-                newLeft = Math.max(0, Math.min(newLeft, maxLeft));
-
-                handle.style.left = (newLeft + 2) + 'px';
-                track.style.width = (newLeft + handle.offsetWidth / 2) + 'px';
-
-                // Check if reached the end (within 5px tolerance)
-                if (newLeft >= maxLeft - 5) {
-                    verifySuccess();
-                }
+                updatePosition(getClientX(e) - startX);
             }
 
             function endDrag() {
                 if (!isDragging || verified) return;
                 isDragging = false;
-
-                // Reset if not verified
                 handle.style.transition = 'left 0.3s ease';
                 track.style.transition = 'width 0.3s ease';
                 handle.style.left = '2px';
                 track.style.width = '0';
+                container.setAttribute('aria-valuenow', 0);
             }
 
             function verifySuccess() {
                 verified = true;
                 isDragging = false;
 
-                const containerWidth = container.offsetWidth;
-                const maxLeft = containerWidth - handle.offsetWidth - 4;
+                const maxLeft = getMaxLeft();
                 handle.style.transition = 'left 0.2s ease';
                 track.style.transition = 'width 0.2s ease';
                 handle.style.left = (maxLeft + 2) + 'px';
-                track.style.width = containerWidth + 'px';
+                track.style.width = container.offsetWidth + 'px';
 
                 handle.classList.add('success');
                 track.classList.add('success');
                 text.classList.add('success');
-                text.textContent = '✓ 验证通过';
+                text.textContent = t().slider_success;
+
+                container.setAttribute('aria-valuenow', 100);
+                container.setAttribute('aria-valuetext', t().slider_success);
 
                 submitBtn.disabled = false;
                 submitBtn.style.opacity = '1';
@@ -1441,14 +1890,24 @@
             document.addEventListener('mousemove', onDrag);
             document.addEventListener('mouseup', endDrag);
 
-            // Touch events (mobile)
+            // Touch events
             handle.addEventListener('touchstart', startDrag, { passive: false });
             document.addEventListener('touchmove', onDrag, { passive: false });
             document.addEventListener('touchend', endDrag);
 
-            // Form submit → mailto:
-            const contactForm = document.getElementById('contactForm');
-            contactForm.addEventListener('submit', function(e) {
+            // Keyboard support
+            container.addEventListener('keydown', function(e) {
+                if (verified) return;
+                if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    const step = getMaxLeft() * 0.1;
+                    const current = parseFloat(handle.style.left) || 2;
+                    updatePosition(current - 2 + step);
+                }
+            });
+
+            // Form submit
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const name = document.getElementById('formName').value.trim();
                 const contact = document.getElementById('formContact').value.trim();
@@ -1464,19 +1923,20 @@
 
                 window.location.href = 'mailto:mars2728@qq.com?subject=' + subject + '&body=' + body;
 
-                // Reset slider
                 setTimeout(function() {
                     verified = false;
                     handle.classList.remove('success');
                     track.classList.remove('success');
                     text.classList.remove('success');
-                    text.textContent = '👉 拖动滑块完成验证';
+                    text.textContent = t().slider_hint;
                     handle.style.left = '2px';
                     track.style.width = '0';
+                    container.setAttribute('aria-valuenow', 0);
+                    container.setAttribute('aria-valuetext', '未验证');
                     submitBtn.disabled = true;
                     submitBtn.style.opacity = '0.5';
                     submitBtn.style.cursor = 'not-allowed';
-                    contactForm.reset();
+                    document.getElementById('contactForm').reset();
                 }, 1000);
             });
 
@@ -1484,28 +1944,23 @@
             document.getElementById('copyWechatBtn').addEventListener('click', function() {
                 const wechatId = '18336972050';
                 if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(wechatId).then(function() {
-                        showCopySuccess();
-                    }).catch(function() {
-                        fallbackCopy(wechatId);
-                    });
+                    navigator.clipboard.writeText(wechatId).then(showCopySuccess).catch(() => fallbackCopy(wechatId));
                 } else {
                     fallbackCopy(wechatId);
                 }
             });
 
-            function fallbackCopy(text) {
+            function fallbackCopy(txt) {
                 const ta = document.createElement('textarea');
-                ta.value = text;
-                ta.style.position = 'fixed';
-                ta.style.opacity = '0';
+                ta.value = txt;
+                ta.style.cssText = 'position:fixed;opacity:0';
                 document.body.appendChild(ta);
                 ta.select();
                 try {
                     document.execCommand('copy');
                     showCopySuccess();
                 } catch(err) {
-                    alert('微信号：' + text + '（请手动复制）');
+                    alert('微信号：' + txt + '（请手动复制）');
                 }
                 document.body.removeChild(ta);
             }
@@ -1514,9 +1969,9 @@
                 const btn = document.getElementById('copyWechatBtn');
                 const original = btn.innerHTML;
                 btn.innerHTML = '✅ 已复制微信号 18336972050';
-                btn.style.borderColor = '#38a169';
-                btn.style.color = '#38a169';
-                setTimeout(function() {
+                btn.style.borderColor = '#16a34a';
+                btn.style.color = '#16a34a';
+                setTimeout(() => {
                     btn.innerHTML = original;
                     btn.style.borderColor = '';
                     btn.style.color = '';
@@ -1524,6 +1979,5 @@
             }
         })();
     </script>
-
 </body>
 </html>
