@@ -8,3 +8,6 @@ edge-functions/
 
 # OPC personal data (financial info, private decisions)
 opc-doc/
+
+# WorkBuddy memory (local session context, may contain sensitive data)
+.workbuddy/
