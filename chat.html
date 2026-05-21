@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 咨询 · 柳秉含</title>
+    <title>AI 咨询 · 柳秉含 | AI Consult · Binghan Liu</title>
     <meta name="description" content="柳秉含 AI 分身，解答软件测试、测试基建、无障碍测试相关问题。">
     <meta name="theme-color" content="#1a365d">
     <!-- Marked.js: Markdown → HTML -->
@@ -82,6 +82,18 @@
             transition: all 0.2s;
         }
         .settings-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .lang-toggle {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
         /* Chat container */
         .chat-container {
@@ -396,8 +408,11 @@
 <header>
     <a href="https://mars-ai-chat-ykcfxzbb.edgeone.run/" class="back-link">← 返回主页</a>
     <div>
-        <div class="header-title">AI 咨询 · 柳秉含</div>
-        <div class="header-subtitle">软件评测师 · 7 年测试经验</div>
+        <div class="header-title" id="header-title">AI 咨询 · 柳秉含</div>
+        <div class="header-subtitle" id="header-subtitle">软件评测师 · 7 年测试经验</div>
+    </div>
+    <div class="header-right">
+        <button class="lang-toggle" id="lang-toggle" onclick="toggleLang()">EN</button>
     </div>
 </header>
 
@@ -617,8 +632,99 @@ function copyCode(btn) {
     });
 }
 
+// ======================== Bilingual Support ========================
+const chatI18n = {
+    zh: {
+        header_title: 'AI 咨询 · 柳秉含',
+        header_subtitle: '软件评测师 · 7 年测试经验',
+        back_link: '← 返回主页',
+        welcome_title: '👋 您好，我是柳秉含的 AI 分身',
+        welcome_desc: '我基于柳秉含的测试专业经验训练，可以回答以下类型的问题：',
+        welcome_tags: '📋 测试报告与验收 · 🏗️ 测试基建搭建 · ♿ 无障碍测试 · 🤖 AI 测试应用',
+        quick1: '测试报告包含哪些内容？',
+        quick2: '政务项目验收要求？',
+        quick3: '测试基建预算？',
+        quick4: '无障碍测试内容？',
+        quick1_full: '测试报告一般包含哪些内容？',
+        quick2_full: '政务项目验收对测试有什么特殊要求？',
+        quick3_full: '搭建测试基建大概需要多少预算？',
+        quick4_full: '无障碍测试主要测什么？',
+        placeholder: '输入您的问题…',
+        send: '发送',
+        hint: '输入问题后按 Enter 发送，Shift+Enter 换行',
+        lang_switch: 'EN',
+    },
+    en: {
+        header_title: 'AI Consult · Binghan Liu',
+        header_subtitle: 'Software Evaluator · 7 Years Testing Experience',
+        back_link: '← Back to Home',
+        welcome_title: '👋 Hi, I\'m Binghan Liu\'s AI Avatar',
+        welcome_desc: 'Trained on Binghan\'s professional testing expertise, I can answer questions about:',
+        welcome_tags: '📋 Test Reports & Acceptance · 🏗️ QA Infrastructure · ♿ Accessibility Testing · 🤖 AI Testing',
+        quick1: 'What\'s in a test report?',
+        quick2: 'Gov acceptance requirements?',
+        quick3: 'QA infrastructure budget?',
+        quick4: 'Accessibility testing scope?',
+        quick1_full: 'What does a typical test report include?',
+        quick2_full: 'What are the special testing requirements for government project acceptance?',
+        quick3_full: 'What\'s the approximate budget for setting up QA infrastructure?',
+        quick4_full: 'What does accessibility testing mainly cover?',
+        placeholder: 'Type your question…',
+        send: 'Send',
+        hint: 'Press Enter to send, Shift+Enter for a new line',
+        lang_switch: '中文',
+    }
+};
+
+let currentChatLang = localStorage.getItem('chat-lang') ||
+    (navigator.language.startsWith('zh') ? 'zh' : 'en');
+
+function applyChatLang() {
+    const t = chatI18n[currentChatLang];
+    document.getElementById('header-title').textContent = t.header_title;
+    document.getElementById('header-subtitle').textContent = t.header_subtitle;
+    document.querySelector('.back-link').textContent = t.back_link;
+    document.documentElement.lang = currentChatLang === 'zh' ? 'zh-CN' : 'en';
+
+    // Welcome section
+    const welcome = document.getElementById('welcome');
+    if (welcome) {
+        welcome.querySelector('h2').textContent = t.welcome_title;
+        welcome.querySelectorAll('p')[0].textContent = t.welcome_desc;
+        welcome.querySelectorAll('p')[1].textContent = t.welcome_tags;
+        const btns = welcome.querySelectorAll('.quick-btn');
+        const quickData = [
+            { text: t.quick1, full: t.quick1_full },
+            { text: t.quick2, full: t.quick2_full },
+            { text: t.quick3, full: t.quick3_full },
+            { text: t.quick4, full: t.quick4_full },
+        ];
+        btns.forEach((btn, i) => {
+            if (quickData[i]) {
+                btn.textContent = quickData[i].text;
+                btn.onclick = () => sendQuick(quickData[i].full);
+            }
+        });
+    }
+
+    // Input area
+    document.getElementById('user-input').placeholder = t.placeholder;
+    document.getElementById('send-btn').textContent = t.send;
+    document.getElementById('input-hint').textContent = t.hint;
+
+    // Lang toggle button
+    document.getElementById('lang-toggle').textContent = t.lang_switch;
+}
+
+function toggleLang() {
+    currentChatLang = currentChatLang === 'zh' ? 'en' : 'zh';
+    localStorage.setItem('chat-lang', currentChatLang);
+    applyChatLang();
+}
+
 // ======================== Boot ========================
 init();
+applyChatLang();
 </script>
 </body>
 </html>
