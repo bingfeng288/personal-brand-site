@@ -610,15 +610,18 @@ marked.setOptions({
 
 function renderMarkdown(text) {
     const html = marked.parse(text);
+    const copyLabel = currentChatLang === 'en' ? 'Copy' : '复制';
     // 给 pre 添加复制按钮
-    return html.replace(/<pre>/g, '<pre><button class="copy-code-btn" onclick="copyCode(this)">复制</button>');
+    return html.replace(/<pre>/g, '<pre><button class="copy-code-btn" onclick="copyCode(this)">' + copyLabel + '</button>');
 }
 
 function copyCode(btn) {
     const code = btn.nextElementSibling?.textContent || '';
+    const copiedText = currentChatLang === 'en' ? 'Copied ✓' : '已复制 ✓';
+    const copyText = currentChatLang === 'en' ? 'Copy' : '复制';
     navigator.clipboard.writeText(code).then(() => {
-        btn.textContent = '已复制 ✓';
-        setTimeout(() => { btn.textContent = '复制'; }, 2000);
+        btn.textContent = copiedText;
+        setTimeout(() => { btn.textContent = copyText; }, 2000);
     }).catch(() => {
         // fallback
         const ta = document.createElement('textarea');
@@ -627,8 +630,8 @@ function copyCode(btn) {
         ta.select();
         document.execCommand('copy');
         document.body.removeChild(ta);
-        btn.textContent = '已复制 ✓';
-        setTimeout(() => { btn.textContent = '复制'; }, 2000);
+        btn.textContent = copiedText;
+        setTimeout(() => { btn.textContent = copyText; }, 2000);
     });
 }
 
