@@ -1,14 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#1a365d"/>
-      <stop offset="100%" stop-color="#2d4a7a"/>
+      <stop offset="0%" stop-color="#0f2027"/>
+      <stop offset="50%" stop-color="#1a365d"/>
+      <stop offset="100%" stop-color="#2d5a87"/>
+    </linearGradient>
+    <linearGradient id="shield" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0d78c"/>
+      <stop offset="100%" stop-color="#c9a84c"/>
+    </linearGradient>
+    <linearGradient id="check" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffe8a0"/>
+      <stop offset="100%" stop-color="#d4b35a"/>
     </linearGradient>
   </defs>
-  <!-- Rounded square background -->
+  <!-- Rounded square background with gradient -->
   <rect width="64" height="64" rx="14" fill="url(#bg)"/>
-  <!-- Shield shape -->
-  <path d="M32 10 L50 18 L50 36 C50 48 32 56 32 56 C32 56 14 48 14 36 L14 18 Z" fill="none" stroke="#c9a84c" stroke-width="2.5" opacity="0.9"/>
-  <!-- Checkmark inside shield -->
-  <path d="M24 32 L30 38 L42 24" fill="none" stroke="#c9a84c" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Shield shape with gold gradient stroke -->
+  <path d="M32 10 L50 18 L50 36 C50 48 32 56 32 56 C32 56 14 48 14 36 L14 18 Z" fill="none" stroke="url(#shield)" stroke-width="2.5" opacity="0.95"/>
+  <!-- Checkmark inside shield with bright gold gradient -->
+  <path d="M24 32 L30 38 L42 24" fill="none" stroke="url(#check)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
