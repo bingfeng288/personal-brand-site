@@ -9,5 +9,8 @@ edge-functions/
 # OPC personal data (financial info, private decisions)
 opc-doc/
 
+# IMA upload files (personal resume, project history, financial constraints)
+ima-upload/
+
 # WorkBuddy memory (local session context, may contain sensitive data)
 .workbuddy/
