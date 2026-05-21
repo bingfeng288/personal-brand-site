@@ -5,3 +5,6 @@
 
 # Edge functions (contains API keys — deploy via CLI only)
 edge-functions/
+
+# OPC personal data (financial info, private decisions)
+opc-doc/
