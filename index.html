@@ -1077,7 +1077,7 @@
 
     <nav id="navbar" role="navigation" aria-label="主导航">
         <div class="container">
-            <div class="logo" aria-label="柳秉含">柳秉含<span>.</span></div>
+            <div class="logo" data-i18n="logo_name" aria-label="柳秉含">柳秉含<span>.</span></div>
             <ul class="nav-links">
                 <li><a href="#about" data-i18n="nav_about">关于</a></li>
                 <li><a href="#services" data-i18n="nav_services">服务</a></li>
@@ -1469,7 +1469,7 @@
 
     <footer role="contentinfo">
         <div class="container">
-            <p>© 2026 柳秉含 · <span data-i18n="footer_role">软件评测师 · 测试交付专家</span></p>
+            <p>© 2026 <span data-i18n="footer_name">柳秉含</span> · <span data-i18n="footer_role">软件评测师 · 测试交付专家</span></p>
             <p style="margin-top: 8px; font-size: 0.8125rem; opacity: 0.7;" data-i18n="footer_cert">
                 计算机技术与软件专业技术资格（中级）· 软件评测师 · 人社部 + 工信部认证
             </p>
@@ -1525,6 +1525,8 @@
                 nav_experience: "经历", nav_consult: "AI 咨询", nav_contact: "联系", lang_switch: "EN",
                 hero_badge: "国家认证 · 可接项目",
                 hero_title_accent: "软件评测师", hero_title_name: "柳秉含",
+                logo_name: "柳秉含<span>.</span>",
+                site_title: "柳秉含 — 软件评测师 | 测试交付专家",
                 hero_subtitle: "7 年软件测试实战经验，专注政务项目验收测试与测试基础设施搭建。<br>AI 工具链加速交付，持证专家一人成军。",
                 stat_years: "年测试经验", stat_infra: "次基建搭建", stat_solo: "人全栈交付",
                 cta_consult: "预约咨询", cta_ai: "🤖 AI 咨询", cta_learn: "了解服务",
@@ -1600,7 +1602,7 @@
                 form_submit: "发送邮件", form_or: "或",
                 form_copy_wechat: "📋 复制微信号，直接联系",
                 form_hint: "点击发送邮件将打开邮箱客户端，24 小时内回复",
-                footer_role: "软件评测师 · 测试交付专家",
+                footer_name: "柳秉含", footer_role: "软件评测师 · 测试交付专家",
                 footer_cert: "计算机技术与软件专业技术资格（中级）· 软件评测师 · 人社部 + 工信部认证"
             },
             en: {
@@ -1609,6 +1611,8 @@
                 nav_experience: "Experience", nav_consult: "AI Consult", nav_contact: "Contact", lang_switch: "中文",
                 hero_badge: "Certified · Available",
                 hero_title_accent: "Software Evaluator", hero_title_name: "Binghan Liu",
+                logo_name: "Binghan Liu<span>.</span>",
+                site_title: "Binghan Liu — Software Evaluator | QA Delivery Specialist",
                 hero_subtitle: "7 years of software testing experience, specializing in government project acceptance testing and QA infrastructure.<br>AI-accelerated delivery, certified expert working solo.",
                 stat_years: "Years Experience", stat_infra: "Infra Built", stat_solo: "Solo Delivery",
                 cta_consult: "Book Consultation", cta_ai: "🤖 AI Consult", cta_learn: "View Services",
@@ -1692,7 +1696,7 @@
                 form_submit: "Send Email", form_or: "or",
                 form_copy_wechat: "📋 Copy WeChat ID",
                 form_hint: "Click send to open email client, reply within 24 hours",
-                footer_role: "Software Evaluator · Testing Delivery Expert",
+                footer_name: "Binghan Liu", footer_role: "Software Evaluator · Testing Delivery Expert",
                 footer_cert: "Computer Technology & Software Professional Qualification (Intermediate) · Software Evaluator · MOHRSS + MIIT Certified"
             }
         };
@@ -1731,6 +1735,8 @@
                 const zhVal = el.getAttribute('data-recommended');
                 el.setAttribute('data-recommended', lang === 'en' ? enVal : zhVal);
             });
+            // Update page title
+            if (t.site_title) document.title = t.site_title;
             // Update lang toggle buttons
             document.querySelectorAll('.lang-toggle').forEach(btn => {
                 btn.textContent = t.lang_switch;
@@ -1840,12 +1846,16 @@
                 const phone = phoneInput.value.trim();
                 const message = document.getElementById('formMessage').value.trim();
 
-                const subject = encodeURIComponent('【个人官网】测试服务咨询 - ' + name);
+                const subject = encodeURIComponent(
+                    currentLang === 'en'
+                        ? '[Website] Testing Service Inquiry - ' + name
+                        : '【个人官网】测试服务咨询 - ' + name
+                );
                 const body = encodeURIComponent(
-                    '称呼：' + name + '\n' +
-                    '手机号：' + phone + '\n' +
-                    '项目需求：' + (message || '暂无描述') + '\n\n' +
-                    '--- 来自柳秉含个人官网 ---'
+                    (currentLang === 'en' ? 'Name: ' : '称呼：') + name + '\n' +
+                    (currentLang === 'en' ? 'Phone: ' : '手机号：') + phone + '\n' +
+                    (currentLang === 'en' ? 'Project Details: ' : '项目需求：') + (message || (currentLang === 'en' ? 'No description' : '暂无描述')) + '\n\n' +
+                    (currentLang === 'en' ? '--- From Binghan Liu\'s Website ---' : '--- 来自柳秉含个人官网 ---')
                 );
 
                 window.location.href = 'mailto:mars2728@qq.com?subject=' + subject + '&body=' + body;
